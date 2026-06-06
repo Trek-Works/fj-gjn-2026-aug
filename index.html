@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FJ-GJN-2026-Aug · Fiji Trip</title>
+
+  <link rel="manifest" href="./manifest.json" />
+
+  <style>
+    :root {
+      --bg-main: #03131f;
+      --bg-card: #062a3b;
+      --bg-card-soft: #073047;
+      --border-soft: rgba(148,163,184,0.35);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --accent-blue: #38bdf8;
+      --radius-card: 18px;
+      --radius-pill: 999px;
+      --shadow-card: 0 20px 40px rgba(15,23,42,0.8);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
+      background: radial-gradient(circle at top,#0f766e 0,#063044 38%,#020617 100%);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 960px;
+      padding: 26px 14px 80px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .breadcrumb {
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .title {
+      margin: 0;
+      font-size: clamp(24px,3.2vw,30px);
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .toolbar {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      border-radius: var(--radius-pill);
+      padding: 6px 12px;
+      font-size: 12px;
+      border: 1px solid var(--border-soft);
+      background: radial-gradient(circle at top left,#1f2937,#020617);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .pill.install { color: var(--text-main); }
+
+    .pill.trip-offline {
+      color: #fbbf24;
+      border-color: #fbbf24;
+    }
+
+    @media (max-width: 640px) {
+      .subtitle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        text-align: center;
+      }
+    }
+
+    .grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: radial-gradient(circle at top,var(--bg-card),var(--bg-card-soft));
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      padding: 16px 17px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      min-height: 160px;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .card-header {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .card-emoji { font-size: 26px; }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .card-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: var(--text-muted);
+      line-height: 1;
+    }
+
+    .card-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 0;
+      line-height: 1.45;
+    }
+
+    .card-link {
+      text-decoration: none;
+      color: var(--accent-blue);
+      font-size: 13px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .hub-container {
+      text-align: center;
+      margin-top: 36px;
+    }
+
+    .hub-btn {
+      display: inline-block;
+      padding: 10px 22px;
+      border-radius: var(--radius-pill);
+      background: radial-gradient(circle at top left,#1f2937,#020617);
+      border: 1px solid var(--border-soft);
+      color: var(--text-main);
+      font-size: 14px;
+      text-decoration: none;
+      letter-spacing: .3px;
+    }
+
+    .ios-install-helper {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 520px;
+      width: calc(100% - 28px);
+      background: rgba(15,23,42,.97);
+      border: 1px solid var(--border-soft);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: none;
+      z-index: 999;
+      box-shadow: 0 20px 40px rgba(0,0,0,.6);
+    }
+
+    .ios-install-helper p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .ios-install-actions {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .ios-install-dismiss {
+      font-size: 12px;
+      color: var(--accent-blue);
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+<div class="page">
+
+  <div class="page-header">
+    <div class="breadcrumb">FJ-GJN-2026-Aug · Fiji Trip</div>
+    <h1 class="title">Trip Home</h1>
+    <p class="subtitle">Fiji · Nadi and Suva · 4 Aug 2026 → 11 Aug 2026</p>
+    <div class="toolbar">
+      <div class="pill" id="tripModePill">Trip Mode: Online</div>
+      <div class="pill" id="tripModeHelp">?</div>
+      <div class="pill install" id="installPill" style="display:none;">
+        <span>⬇️</span>Install App
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./accommodation.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">🏨</div>
+          <div class="card-title">Accommodation</div>
+        </div>
+        <div class="card-text">Confirmed stays for Nadi and Suva, including Wyndham Garden Wailoaloa Beach Fiji and Grand Pacific Hotel.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./activities.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">🌴</div>
+          <div class="card-title">Activities</div>
+        </div>
+        <div class="card-text">Tours, experiences, timing notes and booking placeholders for the Fiji itinerary.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./airports.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">🛫</div>
+          <div class="card-title">Airports</div>
+        </div>
+        <div class="card-text">Nadi International Airport and Sydney Airport details, maps, terminals and arrival/departure notes.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./data-and-esim.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">📶</div>
+          <div class="card-title">Data and eSIM</div>
+        </div>
+        <div class="card-text">Mobile data, eSIM, roaming and connectivity notes for Fiji.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./flights.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">✈️</div>
+          <div class="card-title">Flights</div>
+        </div>
+        <div class="card-text">Jetstar flight details for SYD → NAN and NAN → SYD, including booking reference and passenger notes.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./guides.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">📘</div>
+          <div class="card-title">Guides</div>
+        </div>
+        <div class="card-text">Essential Fiji travel reference information, local guidance and trip notes.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./hire-car.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">🚗</div>
+          <div class="card-title">Hire Car</div>
+        </div>
+        <div class="card-text">Car hire, driving arrangements and local transport reference placeholders.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./immigration-and-customs.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">🛂</div>
+          <div class="card-title">Immigration and Customs</div>
+        </div>
+        <div class="card-text">Entry requirements, arrival processes, customs declarations and traveller preparation notes.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./insurance.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">🛡️</div>
+          <div class="card-title">Insurance</div>
+        </div>
+        <div class="card-text">Travel insurance documents, emergency contact details and policy reference placeholders.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./road-rules-signs.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">🚦</div>
+          <div class="card-title">Road Rules and Signs</div>
+        </div>
+        <div class="card-text">Fiji driving rules, road signs and safety notes for local travel.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./shopping.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">🛍️</div>
+          <div class="card-title">Shopping</div>
+        </div>
+        <div class="card-text">Shopping plans, local stores, market notes and budget considerations.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./task-list-guide.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">📝</div>
+          <div class="card-title">Task List</div>
+        </div>
+        <div class="card-text">Trip preparation, pre-departure tasks, booking checks and final readiness checklist.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./travel-packing-guide.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">🎒</div>
+          <div class="card-title">Travel Packing Guide</div>
+        </div>
+        <div class="card-text">Packing checklist for Fiji, including warm-weather travel, swimming gear and essentials.</div>
+      </article>
+
+
+    </div>
+
+    <div class="hub-container">
+      <a href="https://portal.trekworks.org/" class="hub-btn">← Back to TrekWorks Hub</a>
+    </div>
+  </main>
+</div>
+
+<div class="ios-install-helper" id="iosInstallHelper">
+  <p>
+    <strong>Install this trip for offline use</strong><br>
+    Tap <strong>Share</strong> then <strong>Add to Home Screen</strong> in Safari.
+  </p>
+  <div class="ios-install-actions">
+    <span class="ios-install-dismiss" id="iosInstallDismiss">Dismiss</span>
+  </div>
+</div>
+
+<script>
+const TRIP_ID = "FJ-GJN-2026-Aug";
+const TRIP_MODE_LS_KEY = "trekworks.tripMode:FJ-GJN-2026-Aug";
+const DEFAULT_TRIP_MODE = "online";
+
+const DB_NAME = "trekworks";
+const DB_VERSION = 1;
+const STORE_NAME = "settings";
+const TRIP_MODE_KEY = "tripMode:FJ-GJN-2026-Aug";
+
+function openTripDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME);
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function persistTripModeToDB(mode) {
+  try {
+    const db = await openTripDB();
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    tx.objectStore(STORE_NAME).put(mode, TRIP_MODE_KEY);
+  } catch {}
+}
+
+(async () => {
+  try {
+    const db = await openTripDB();
+    const tx = db.transaction(STORE_NAME, "readonly");
+    const store = tx.objectStore(STORE_NAME);
+    const req = store.get(TRIP_MODE_KEY);
+    req.onsuccess = () => {
+      if (req.result === undefined) {
+        const mode =
+          localStorage.getItem(TRIP_MODE_LS_KEY) || DEFAULT_TRIP_MODE;
+        persistTripModeToDB(mode);
+      }
+    };
+  } catch {}
+})();
+
+function getTripMode() {
+  return localStorage.getItem(TRIP_MODE_LS_KEY) || DEFAULT_TRIP_MODE;
+}
+
+function setTripMode(mode) {
+  localStorage.setItem(TRIP_MODE_LS_KEY, mode);
+  persistTripModeToDB(mode);
+}
+
+const tripPill = document.getElementById("tripModePill");
+const helpPill = document.getElementById("tripModeHelp");
+
+function refreshTripModeUI() {
+  const mode = getTripMode();
+  if (mode === "offline") {
+    tripPill.textContent = "Trip Mode: Offline";
+    tripPill.classList.add("trip-offline");
+  } else {
+    tripPill.textContent = "Trip Mode: Online";
+    tripPill.classList.remove("trip-offline");
+  }
+}
+
+tripPill.addEventListener("click", () => {
+  const next = getTripMode() === "offline" ? "online" : "offline";
+  setTripMode(next);
+  refreshTripModeUI();
+});
+
+helpPill.addEventListener("click", () => {
+  alert(
+    "Trip Mode controls how external links behave while travelling.\n\n" +
+    "Offline: keeps you inside the app.\n" +
+    "Online: allows external sites."
+  );
+});
+
+refreshTripModeUI();
+
+let deferredInstallPrompt = null;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  document.getElementById("installPill").style.display = "inline-flex";
+});
+
+window.addEventListener("appinstalled", () => {
+  document.getElementById("installPill").style.display = "none";
+  deferredInstallPrompt = null;
+});
+
+document.getElementById("installPill").addEventListener("click", async () => {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+});
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./service-worker.js", { scope: "./" })
+    .then(() => {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        for (let reg of regs) reg.update();
+      });
+    });
+}
+
+(function () {
+  const DISMISS_KEY = "trekworks.iosInstallDismissed";
+  const helper = document.getElementById("iosInstallHelper");
+  const dismissBtn = document.getElementById("iosInstallDismiss");
+
+  if (!helper || !dismissBtn) return;
+
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua);
+  const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+  const isStandalone =
+    navigator.standalone === true ||
+    window.matchMedia("(display-mode: standalone)").matches;
+
+  const dismissed = localStorage.getItem(DISMISS_KEY) === "true";
+
+  if (isIOS && isSafari && !isStandalone && !dismissed) {
+    helper.style.display = "block";
+  }
+
+  dismissBtn.addEventListener("click", () => {
+    localStorage.setItem(DISMISS_KEY, "true");
+    helper.style.display = "none";
+  });
+})();
+</script>
+
+</body>
+</html>

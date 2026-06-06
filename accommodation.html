@@ -1477,10 +1477,23 @@ function openHotelExternal() {
   }
 }
 
-function handleExternal(url) {
+function handleExternal(url, title) {
+  const activeText = (document.activeElement && document.activeElement.textContent)
+    ? document.activeElement.textContent.trim()
+    : '';
+
+  const browserTitle = title || activeText || 'External Link';
+
   verifyConnectivity()
     .then(function () {
-      window.location.href = 'external.html?url=' + encodeURIComponent(url);
+      const modalTitle = document.getElementById('websiteBrowserTitle');
+      const frame = document.getElementById('websiteBrowserFrame');
+
+      modalTitle.textContent = browserTitle;
+      frame.removeAttribute('srcdoc');
+      frame.src = 'external.html?url=' + encodeURIComponent(url);
+
+      document.getElementById('websiteBrowserModal').style.display = 'flex';
     })
     .catch(showOffline);
 }

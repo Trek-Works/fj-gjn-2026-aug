@@ -1305,7 +1305,8 @@ function closeWebsiteHub() {
 
 function openWebsiteExternal() {
   if (currentWebsiteUrl) {
-    openWebsiteBrowser(currentWebsiteUrl);
+    openDirectExternal(currentWebsiteUrl);
+    closeWebsiteHub();
   }
 }
 
@@ -1313,7 +1314,7 @@ function openWebsiteBrowser(url) {
   verifyConnectivity()
     .then(function () {
       document.getElementById('websiteBrowserTitle').textContent = document.getElementById('websiteModalTitle').textContent || 'Hotel Website';
-      document.getElementById('websiteBrowserFrame').src = 'external.html?url=' + encodeURIComponent(url);
+      document.getElementById('websiteBrowserFrame').src = url;
       document.getElementById('websiteModal').style.display = 'none';
       document.getElementById('websiteBrowserModal').style.display = 'flex';
     })
@@ -1414,7 +1415,7 @@ function openExternalBrowser(title, url, launchMode) {
           </html>`;
       } else {
         frame.removeAttribute('srcdoc');
-        frame.src = 'external.html?url=' + encodeURIComponent(url);
+        frame.src = url;
       }
 
       document.getElementById('websiteBrowserModal').style.display = 'flex';
@@ -1468,19 +1469,19 @@ function openReservationExternal() {
 
 function openHotelExternal() {
   if (currentHotelUrl) {
-    openExternalBrowser(
-      'Hotel Website — ' + (document.getElementById('reservationModalTitle').textContent || 'Hotel Website'),
-      currentHotelUrl,
-      false
-    );
+    openDirectExternal(currentHotelUrl);
     closeReservationHub();
   }
 }
 
 function handleExternal(url) {
+  openDirectExternal(url);
+}
+
+function openDirectExternal(url) {
   verifyConnectivity()
     .then(function () {
-      window.location.href = 'external.html?url=' + encodeURIComponent(url);
+      window.open(url, '_blank', 'noopener');
     })
     .catch(showOffline);
 }

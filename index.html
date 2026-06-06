@@ -9,16 +9,17 @@
 
   <style>
     :root {
-      --bg-main: #03131f;
-      --bg-card: #062a3b;
-      --bg-card-soft: #073047;
-      --border-soft: rgba(148,163,184,0.35);
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-      --accent-blue: #38bdf8;
+      --bg-main: #eefbff;
+      --bg-card: rgba(255,255,255,0.94);
+      --bg-card-soft: rgba(255,255,255,0.98);
+      --border-soft: rgba(8,145,178,0.16);
+      --text-main: #15365f;
+      --text-muted: #49657f;
+      --accent-blue: #0891b2;
+      --accent-teal: #0ea5a7;
       --radius-card: 18px;
       --radius-pill: 999px;
-      --shadow-card: 0 20px 40px rgba(15,23,42,0.8);
+      --shadow-card: 0 10px 28px rgba(15,118,110,0.12);
     }
 
     * { box-sizing: border-box; }
@@ -28,7 +29,9 @@
       padding: 0;
       min-height: 100vh;
       font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
-      background: radial-gradient(circle at top,#0f766e 0,#063044 38%,#020617 100%);
+      background:
+        linear-gradient(rgba(235,250,253,.76), rgba(244,252,253,.93) 42%, rgba(244,252,253,.98)),
+        url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top / cover fixed;
       color: var(--text-main);
       display: flex;
       justify-content: center;
@@ -36,8 +39,8 @@
 
     .page {
       width: 100%;
-      max-width: 960px;
-      padding: 26px 14px 80px;
+      max-width: 1180px;
+      padding: 28px 18px 80px;
     }
 
     .page-header {
@@ -47,27 +50,31 @@
 
     .breadcrumb {
       text-transform: uppercase;
-      letter-spacing: .18em;
+      letter-spacing: .22em;
       font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
+      color: #0f6f88;
+      margin-bottom: 8px;
+      font-weight: 600;
     }
 
     .title {
       margin: 0;
-      font-size: clamp(24px,3.2vw,30px);
-      font-weight: 700;
+      font-size: clamp(28px,3.6vw,42px);
+      font-weight: 800;
+      color: #15365f;
+      text-shadow: 0 1px 0 rgba(255,255,255,.6);
     }
 
     .subtitle {
-      margin-top: 4px;
-      font-size: 12px;
-      color: var(--text-muted);
+      margin-top: 8px;
+      font-size: 13px;
+      color: #244c72;
       text-transform: uppercase;
+      font-weight: 500;
     }
 
     .toolbar {
-      margin-top: 14px;
+      margin-top: 16px;
       display: flex;
       gap: 10px;
       justify-content: center;
@@ -76,23 +83,30 @@
 
     .pill {
       border-radius: var(--radius-pill);
-      padding: 6px 12px;
-      font-size: 12px;
-      border: 1px solid var(--border-soft);
-      background: radial-gradient(circle at top left,#1f2937,#020617);
-      color: var(--text-muted);
+      padding: 8px 15px;
+      font-size: 13px;
+      border: 1px solid rgba(8,145,178,.22);
+      background: rgba(255,255,255,.82);
+      color: #15365f;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       cursor: pointer;
       user-select: none;
+      box-shadow: 0 8px 20px rgba(8,145,178,.10);
+      backdrop-filter: blur(8px);
     }
 
-    .pill.install { color: var(--text-main); }
+    .pill.install {
+      color: #fff;
+      background: linear-gradient(135deg,#0ea5b7,#0284c7);
+      border-color: transparent;
+    }
 
     .pill.trip-offline {
-      color: #fbbf24;
-      border-color: #fbbf24;
+      color: #92400e;
+      border-color: #f59e0b;
+      background: #fff7ed;
     }
 
     @media (max-width: 640px) {
@@ -106,22 +120,23 @@
     }
 
     .grid {
-      margin-top: 24px;
+      margin-top: 28px;
       display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 20px;
     }
 
     .card {
-      background: radial-gradient(circle at top,var(--bg-card),var(--bg-card-soft));
+      background: linear-gradient(180deg,var(--bg-card),var(--bg-card-soft));
       border: 1px solid var(--border-soft);
       border-radius: var(--radius-card);
       box-shadow: var(--shadow-card);
-      padding: 16px 17px 16px;
+      padding: 18px 19px 18px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       min-height: 160px;
+      backdrop-filter: blur(10px);
     }
 
     .card-top {
@@ -129,36 +144,38 @@
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .card-header {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       align-items: center;
       margin-bottom: 10px;
     }
 
-    .card-emoji { font-size: 26px; }
+    .card-emoji { font-size: 27px; }
 
     .card-title {
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 17px;
+      font-weight: 750;
+      color: #15365f;
     }
 
     .card-tag {
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: .18em;
-      color: var(--text-muted);
+      letter-spacing: .24em;
+      color: #0891b2;
       line-height: 1;
+      font-weight: 700;
     }
 
     .card-text {
-      font-size: 13px;
+      font-size: 13.5px;
       color: var(--text-muted);
       margin-bottom: 0;
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     .card-link {
@@ -167,23 +184,25 @@
       font-size: 13px;
       white-space: nowrap;
       flex-shrink: 0;
+      font-weight: 700;
     }
 
     .hub-container {
       text-align: center;
-      margin-top: 36px;
+      margin-top: 38px;
     }
 
     .hub-btn {
       display: inline-block;
-      padding: 10px 22px;
+      padding: 12px 26px;
       border-radius: var(--radius-pill);
-      background: radial-gradient(circle at top left,#1f2937,#020617);
-      border: 1px solid var(--border-soft);
-      color: var(--text-main);
+      background: linear-gradient(135deg,#0ea5b7,#0284c7);
+      border: 1px solid rgba(255,255,255,.44);
+      color: #ffffff;
       font-size: 14px;
       text-decoration: none;
       letter-spacing: .3px;
+      box-shadow: 0 10px 24px rgba(8,145,178,.22);
     }
 
     .ios-install-helper {
@@ -193,13 +212,13 @@
       transform: translateX(-50%);
       max-width: 520px;
       width: calc(100% - 28px);
-      background: rgba(15,23,42,.97);
+      background: rgba(255,255,255,.97);
       border: 1px solid var(--border-soft);
       border-radius: 14px;
       padding: 12px 14px;
       display: none;
       z-index: 999;
-      box-shadow: 0 20px 40px rgba(0,0,0,.6);
+      box-shadow: 0 20px 40px rgba(15,118,110,.18);
     }
 
     .ios-install-helper p {
@@ -219,6 +238,7 @@
       font-size: 12px;
       color: var(--accent-blue);
       cursor: pointer;
+      font-weight: 700;
     }
   </style>
 </head>
@@ -260,23 +280,15 @@
           <a class="card-link" href="./activities.html">Open ↗</a>
         </div>
         <div class="card-header">
-          <div class="card-emoji">🌴</div>
+          <div class="card-emoji">🎡</div>
           <div class="card-title">Activities</div>
         </div>
         <div class="card-text">Tours, experiences, timing notes and booking placeholders for the Fiji itinerary.</div>
       </article>
 
-      <article class="card">
-        <div class="card-top">
-          <div class="card-tag">TRIP ELEMENT</div>
-          <a class="card-link" href="./airports.html">Open ↗</a>
-        </div>
-        <div class="card-header">
-          <div class="card-emoji">🛫</div>
-          <div class="card-title">Airports</div>
-        </div>
-        <div class="card-text">Nadi International Airport and Sydney Airport details, maps, terminals and arrival/departure notes.</div>
-      </article>
+      
+
+      
 
       <article class="card">
         <div class="card-top">
@@ -326,17 +338,7 @@
         <div class="card-text">Car hire, driving arrangements and local transport reference placeholders.</div>
       </article>
 
-      <article class="card">
-        <div class="card-top">
-          <div class="card-tag">TRIP ELEMENT</div>
-          <a class="card-link" href="./immigration-and-customs.html">Open ↗</a>
-        </div>
-        <div class="card-header">
-          <div class="card-emoji">🛂</div>
-          <div class="card-title">Immigration and Customs</div>
-        </div>
-        <div class="card-text">Entry requirements, arrival processes, customs declarations and traveller preparation notes.</div>
-      </article>
+      
 
       <article class="card">
         <div class="card-top">
@@ -350,29 +352,9 @@
         <div class="card-text">Travel insurance documents, emergency contact details and policy reference placeholders.</div>
       </article>
 
-      <article class="card">
-        <div class="card-top">
-          <div class="card-tag">TRIP ELEMENT</div>
-          <a class="card-link" href="./road-rules-signs.html">Open ↗</a>
-        </div>
-        <div class="card-header">
-          <div class="card-emoji">🚦</div>
-          <div class="card-title">Road Rules and Signs</div>
-        </div>
-        <div class="card-text">Fiji driving rules, road signs and safety notes for local travel.</div>
-      </article>
+      
 
-      <article class="card">
-        <div class="card-top">
-          <div class="card-tag">TRIP ELEMENT</div>
-          <a class="card-link" href="./shopping.html">Open ↗</a>
-        </div>
-        <div class="card-header">
-          <div class="card-emoji">🛍️</div>
-          <div class="card-title">Shopping</div>
-        </div>
-        <div class="card-text">Shopping plans, local stores, market notes and budget considerations.</div>
-      </article>
+      
 
       <article class="card">
         <div class="card-top">
@@ -386,18 +368,9 @@
         <div class="card-text">Trip preparation, pre-departure tasks, booking checks and final readiness checklist.</div>
       </article>
 
-      <article class="card">
-        <div class="card-top">
-          <div class="card-tag">TRIP ELEMENT</div>
-          <a class="card-link" href="./travel-packing-guide.html">Open ↗</a>
-        </div>
-        <div class="card-header">
-          <div class="card-emoji">🎒</div>
-          <div class="card-title">Travel Packing Guide</div>
-        </div>
-        <div class="card-text">Packing checklist for Fiji, including warm-weather travel, swimming gear and essentials.</div>
-      </article>
+      
 
+      
 
     </div>
 

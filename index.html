@@ -109,6 +109,12 @@
       background: #fff7ed;
     }
 
+    .pill.audio-on {
+      color: #ffffff;
+      background: linear-gradient(135deg,#14b8a6,#0284c7);
+      border-color: transparent;
+    }
+
     @media (max-width: 640px) {
       .subtitle {
         display: flex;
@@ -253,6 +259,9 @@
     <div class="toolbar">
       <div class="pill" id="tripModePill">Trip Mode: Online</div>
       <div class="pill" id="tripModeHelp">?</div>
+      <div class="pill" id="audioPill" title="Play or pause the Fiji trip background music">
+        <span>🎵</span><span id="audioPillText">Island Sound: Off</span>
+      </div>
       <div class="pill install" id="installPill" style="display:none;">
         <span>⬇️</span>Install App
       </div>
@@ -380,6 +389,10 @@
   </main>
 </div>
 
+<audio id="tripAudio" loop preload="none">
+  <source src="./assets/audio/fiji-theme.mp3" type="audio/mpeg">
+</audio>
+
 <div class="ios-install-helper" id="iosInstallHelper">
   <p>
     <strong>Install this trip for offline use</strong><br>
@@ -476,6 +489,70 @@ helpPill.addEventListener("click", () => {
 });
 
 refreshTripModeUI();
+
+const AUDIO_LS_KEY = "trekworks.tripAudio:FJ-GJN-2026-Aug";
+const audioPill = document.getElementById("audioPill");
+const audioPillText = document.getElementById("audioPillText");
+const tripAudio = document.getElementById("tripAudio");
+
+function getAudioPreference() {
+  return localStorage.getItem(AUDIO_LS_KEY) === "on" ? "on" : "off";
+}
+
+function setAudioPreference(mode) {
+  localStorage.setItem(AUDIO_LS_KEY, mode);
+}
+
+function refreshAudioUI(mode) {
+  if (!audioPill || !audioPillText) return;
+
+  if (mode === "on") {
+    audioPill.classList.add("audio-on");
+    audioPillText.textContent = "Island Sound: On";
+  } else {
+    audioPill.classList.remove("audio-on");
+    audioPillText.textContent = "Island Sound: Off";
+  }
+}
+
+async function playTripAudio() {
+  if (!tripAudio) return false;
+
+  try {
+    tripAudio.volume = 0.28;
+    await tripAudio.play();
+    setAudioPreference("on");
+    refreshAudioUI("on");
+    return true;
+  } catch {
+    setAudioPreference("off");
+    refreshAudioUI("off");
+    return false;
+  }
+}
+
+function pauseTripAudio() {
+  if (!tripAudio) return;
+  tripAudio.pause();
+  setAudioPreference("off");
+  refreshAudioUI("off");
+}
+
+if (audioPill && tripAudio) {
+  refreshAudioUI(getAudioPreference());
+
+  audioPill.addEventListener("click", async () => {
+    if (tripAudio.paused) {
+      await playTripAudio();
+    } else {
+      pauseTripAudio();
+    }
+  });
+
+  tripAudio.addEventListener("ended", () => {
+    refreshAudioUI("off");
+  });
+}
 
 let deferredInstallPrompt = null;
 

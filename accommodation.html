@@ -274,6 +274,29 @@
       cursor: pointer;
     }
 
+
+    .map-modal-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    .map-open-link {
+      border: 1px solid rgba(255,255,255,0.16);
+      background: #020617;
+      color: #f9fafb;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
     .map-modal iframe {
       width: 100%;
       height: calc(100vh - 52px);
@@ -1182,7 +1205,10 @@
 <div class="map-modal" id="mapModal">
 <div class="map-modal-header">
 <div class="map-modal-title">Map</div>
+<div class="map-modal-actions">
+<a class="map-open-link" href="#" id="mapOpenLink" target="_blank" rel="noopener">Open in Maps ↗</a>
 <button class="map-modal-close" onclick="closeMapModal()">X Close</button>
+</div>
 </div>
 <iframe id="mapFrame" loading="lazy" src=""></iframe>
 </div>
@@ -1273,9 +1299,17 @@
 </div>
 </div>
 <script>
-function openMapModal(url) {
+function openMapModal(url, externalUrl) {
   verifyConnectivity()
     .then(function () {
+      const openLink = document.getElementById('mapOpenLink');
+      let directUrl = externalUrl || url;
+
+      directUrl = directUrl
+        .replace(/([?&])output=embed&?/, '$1')
+        .replace(/[?&]$/, '');
+
+      openLink.href = directUrl;
       document.getElementById('mapFrame').src = url;
       document.getElementById('mapModal').style.display = 'flex';
     })
@@ -1284,6 +1318,8 @@ function openMapModal(url) {
 
 function closeMapModal() {
   document.getElementById('mapFrame').src = '';
+  const openLink = document.getElementById('mapOpenLink');
+  if (openLink) openLink.href = '#';
   document.getElementById('mapModal').style.display = 'none';
 }
 

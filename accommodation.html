@@ -1028,6 +1028,25 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+/* Grand/Ramada contact-row link alignment */
+.phone-row a {
+  color: #0000ee !important;
+  text-decoration: underline !important;
+  font-weight: 400 !important;
+}
+
+.phone-row a:visited {
+  color: #551a8b !important;
+}
+
+
+/* Grand Pacific contact row inline alignment */
+.gp-contact-row {
+  display: block;
+  line-height: 1.45;
+}
+
 </style>
 </head>
 <body>
@@ -1111,15 +1130,16 @@
 <div><span class="meta-label">Included:</span> <span class="room-value">Breakfast + Wi‑Fi</span></div>
 <div><span class="meta-label">Parking:</span> <span class="room-value">Valet requested</span></div>
 </div>
-<div class="meta-row booking-row">
-<div><span class="meta-label">Confirmation:</span> <span class="room-value">5043319380</span></div>
-<div><span class="meta-label">PIN:</span> <span class="room-value">1785</span></div>
-</div>
-<div class="detail-row phone-row">
+<div class="detail-row phone-row gp-contact-row">
+<span class="meta-label">Confirmation:</span> <span class="phone-value">5043319380</span>
+&nbsp;&nbsp;
+<span class="meta-label">PIN:</span> <span class="phone-value">1785</span>
+&nbsp;&nbsp;
 <span class="meta-label">Phone:</span> <span class="phone-value">+679 322 2000</span>
-  
-<span class="meta-label">Address:</span>
-<a href="#" onclick="openMapModal('https://www.google.com/maps?q=Grand%20Pacific%20Hotel%20584-618%20Victoria%20Parade%20Suva%20Fiji&amp;output=embed'); return false;">584–618 Victoria Parade, Suva, Fiji</a>
+&nbsp;&nbsp;
+<span class="meta-label">Email:</span> <a href="mailto:enquiries.fiji@ihg.com">enquiries.fiji@ihg.com</a>
+&nbsp;&nbsp;
+<span class="meta-label">Address:</span> <a href="#" onclick="openMapModal('https://www.google.com/maps?q=Grand%20Pacific%20Hotel%20584-618%20Victoria%20Parade%20Suva%20Fiji&amp;output=embed'); return false;">584–618 Victoria Parade, Suva, Fiji</a>
 </div>
 <div class="card-footer">
 <a class="link-pill" href="#" onclick="handleExternal('https://grandpacifichotel.com.fj/'); return false;">Hotel Website</a>
@@ -1427,7 +1447,26 @@ function openExternalBrowser(title, url, launchMode) {
                 font-size: 14px;
                 font-weight: 600;
               }
-            </style>
+            
+/* Grand/Ramada contact-row link alignment */
+.phone-row a {
+  color: #0000ee !important;
+  text-decoration: underline !important;
+  font-weight: 400 !important;
+}
+
+.phone-row a:visited {
+  color: #551a8b !important;
+}
+
+
+/* Grand Pacific contact row inline alignment */
+.gp-contact-row {
+  display: block;
+  line-height: 1.45;
+}
+
+</style>
           </head>
           <body>
             <div class="launch-card">
@@ -1591,7 +1630,26 @@ function buildExternalLaunchCard(title, url) {
           font-size: 14px;
           font-weight: 700;
         }
-      </style>
+      
+/* Grand/Ramada contact-row link alignment */
+.phone-row a {
+  color: #0000ee !important;
+  text-decoration: underline !important;
+  font-weight: 400 !important;
+}
+
+.phone-row a:visited {
+  color: #551a8b !important;
+}
+
+
+/* Grand Pacific contact row inline alignment */
+.gp-contact-row {
+  display: block;
+  line-height: 1.45;
+}
+
+</style>
     </head>
     <body>
       <div class="launch-card">

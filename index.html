@@ -11,6 +11,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Fiji Trip" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="apple-touch-icon" href="./assets/icons/icon-FJ-2026-192.png" />
 
   <style>
     :root {
@@ -661,14 +662,6 @@ function getBrowserInfo() {
   };
 }
 
-function chromeIntentUrl() {
-  const url = new URL(window.location.href);
-  return (
-    `intent://${url.host}${url.pathname}${url.search}${url.hash}` +
-    `#Intent;scheme=${url.protocol.replace(":", "")};package=com.android.chrome;end`
-  );
-}
-
 async function runNativeInstallPrompt() {
   if (!deferredInstallPrompt) return false;
 
@@ -690,43 +683,24 @@ async function runNativeInstallPrompt() {
 function showInstallInstructions() {
   const browser = getBrowserInfo();
 
+  // iOS cannot use beforeinstallprompt; Safari manual install is the required path.
   let html = `
-    <p>The automatic install prompt is not available in this browser session.</p>
+    <p>Apple devices install web apps from Safari.</p>
     <ol>
-      <li>Open the browser menu.</li>
-      <li>Select <strong>Install app</strong> or <strong>Add to Home screen</strong>.</li>
-      <li>If the option is missing, refresh this page and try again.</li>
+      <li>Open this page in <strong>Safari</strong>.</li>
+      <li>Tap <strong>Share</strong>.</li>
+      <li>Tap <strong>Add to Home Screen</strong>.</li>
     </ol>`;
 
-  if (browser.isAndroid && !browser.isChrome) {
+  // Non-iOS fallback only appears if the user clicks a visible pill without an available native prompt.
+  // This should be rare once manifest.json and service-worker.js are correct.
+  if (!browser.isIOS) {
     html = `
-      <p>This page is currently open in the device's default browser, not Chrome.</p>
+      <p>The browser has not made the automatic install prompt available.</p>
       <ol>
-        <li>Tap <strong>Open in Chrome</strong> below.</li>
-        <li>Wait for the Fiji Trip Home page to finish loading.</li>
-        <li>Tap <strong>Install App</strong> again.</li>
-        <li>If Chrome still does not show the install prompt, tap the <strong>⋮</strong> menu and choose <strong>Install app</strong> or <strong>Add to Home screen</strong>.</li>
-      </ol>
-      <p style="margin-top:14px;">
-        <a href="${chromeIntentUrl()}" style="display:inline-block;text-decoration:none;padding:10px 14px;border-radius:999px;background:rgba(8,145,178,.10);border:1px solid rgba(8,145,178,.25);color:#0891b2;font-weight:700;">Open in Chrome</a>
-      </p>`;
-  } else if (browser.isAndroid && browser.isChrome) {
-    html = `
-      <p>Chrome has not made the automatic install prompt available yet.</p>
-      <ol>
-        <li>Tap the <strong>⋮</strong> menu in Chrome.</li>
-        <li>Select <strong>Install app</strong> if shown.</li>
-        <li>If that is not shown, select <strong>Add to Home screen</strong>.</li>
-        <li>If neither option appears, refresh once, wait for the page to finish loading, then try again.</li>
-      </ol>
-      <p><strong>Note:</strong> Android/Chrome controls the final install pop-up. The app can request it, but Chrome decides when to expose it.</p>`;
-  } else if (browser.isIOS) {
-    html = `
-      <p>Apple devices install web apps from Safari.</p>
-      <ol>
-        <li>Open this page in <strong>Safari</strong>.</li>
-        <li>Tap <strong>Share</strong>.</li>
-        <li>Tap <strong>Add to Home Screen</strong>.</li>
+        <li>Confirm the page is open in Chrome or Edge.</li>
+        <li>Refresh once and wait for the page to finish loading.</li>
+        <li>Use the browser menu and select <strong>Install app</strong> if shown.</li>
       </ol>`;
   }
 
@@ -765,6 +739,7 @@ installPill.addEventListener("click", async () => {
 
     if (await runNativeInstallPrompt()) return;
 
+    // Only fallback if visible pill was clicked but no native event is available.
     showInstallInstructions();
   } catch {
     showInstallInstructions();
@@ -776,18 +751,11 @@ installModal.addEventListener("click", (event) => {
   if (event.target === installModal) hideInstallInstructions();
 });
 
-// Keep a visible install pathway on Android and iOS even when the browser never
-// fires beforeinstallprompt. This is the key fix used from the Türkiye index.
+// Do not force-show the install pill on Android. The pill appears when the
+// browser confirms installability via beforeinstallprompt. iOS uses the Safari helper.
 (function initialiseInstallPillVisibility() {
-  const browser = getBrowserInfo();
-
   if (isStandaloneMode()) {
     installPill.style.display = "none";
-    return;
-  }
-
-  if (browser.isAndroid || browser.isIOS) {
-    installPill.style.display = "inline-flex";
   }
 })();
 

@@ -1,10 +1,10 @@
 // =====================================================
 // TrekWorks Trip Mode (TTM) Service Worker
-// Trip: JP / GJN-2026-May
+// Trip: FJ / GJN-2026-Aug
 // Scope: subdomain root (./)
 // =====================================================
 
-const CACHE_VERSION = "tw-jp-gjn-2026-may-2026-05";
+const CACHE_VERSION = "tw-fj-gjn-2026-aug-2026-06-07-install-fix";
 const CACHE_NAME = `trekworks-${CACHE_VERSION}`;
 
 // -----------------------------------------------------
@@ -13,7 +13,7 @@ const CACHE_NAME = `trekworks-${CACHE_VERSION}`;
 const DB_NAME = "trekworks";
 const DB_VERSION = 1;
 const STORE_NAME = "settings";
-const TRIP_MODE_KEY = "tripMode:GJN-2026-May";
+const TRIP_MODE_KEY = "tripMode:FJ-GJN-2026-Aug";
 const DEFAULT_MODE = "online";
 
 function openDB() {
@@ -46,7 +46,7 @@ async function getTripMode() {
 }
 
 // -----------------------------------------------------
-// Core assets (FULL TRIP PRECACHE — SAME MODEL AS 2024)
+// Core assets
 // -----------------------------------------------------
 const CORE_ASSETS = [
   "./",
@@ -56,46 +56,36 @@ const CORE_ASSETS = [
 
   "./accommodation.html",
   "./activities.html",
-  "./airport-limousine-bus.html",
+  "./data-and-esim.html",
   "./flights.html",
   "./guides.html",
-  "./shopping.html",
+  "./hire-car.html",
+  "./insurance.html",
   "./task-list-guide.html",
-  "./trains.html",
-  "./travel-packing-guide.html",
 
   "./external.html",
 
-  // NOTE: These MUST match your deployed filenames
-"./assets/icons/icon-JP-2026-192.png",
-"./assets/icons/icon-JP-2026-512.png"
+  "./assets/icons/icon-FJ-2026-192.png",
+  "./assets/icons/icon-FJ-2026-512.png",
+  "./assets/audio/fiji-theme.mp3"
 ];
 
 // -----------------------------------------------------
-// Install (resilient precache)
+// Install
 // -----------------------------------------------------
 self.addEventListener("install", (event) => {
   event.waitUntil(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
 
-      // Cache each asset independently so a single 404 doesn't kill install
-      const results = await Promise.allSettled(
+      await Promise.allSettled(
         CORE_ASSETS.map(async (asset) => {
           const req = new Request(asset, { cache: "reload" });
           const res = await fetch(req);
-
-          // Only cache successful (200-ish) responses
           if (!res || !res.ok) throw new Error(`Precache failed: ${asset} (${res && res.status})`);
-
           await cache.put(req, res);
         })
       );
-
-      // Optional: you could log failures during dev, but SW logs are noisy in prod.
-      // results.filter(r => r.status === "rejected").forEach(r => console.warn(r.reason));
-
-      return results;
     })()
   );
 
@@ -120,7 +110,7 @@ self.addEventListener("activate", (event) => {
 });
 
 // -----------------------------------------------------
-// Fetch handling (navigation only)
+// Fetch handling
 // -----------------------------------------------------
 self.addEventListener("fetch", (event) => {
   if (event.request.mode !== "navigate") return;
@@ -128,7 +118,7 @@ self.addEventListener("fetch", (event) => {
 });
 
 // -----------------------------------------------------
-// Navigation strategy (IDENTICAL TO 2024)
+// Navigation strategy
 // -----------------------------------------------------
 async function handleNavigation(request) {
   const url = new URL(request.url);
@@ -142,12 +132,10 @@ async function handleNavigation(request) {
     request.destination === "document" && !isExternalRouter;
 
   const canonicalExternalRequest = new Request("./external.html");
-
   const tripMode = await getTripMode();
 
   // ================= OFFLINE =================
   if (tripMode === "offline") {
-
     if (isExternalRouter) {
       return (
         (await cache.match(canonicalExternalRequest)) ||

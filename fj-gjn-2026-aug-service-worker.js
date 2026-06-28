@@ -4,7 +4,7 @@
 // Scope: subdomain root (./)
 // =====================================================
 
-const CACHE_VERSION = "tw-fj-gjn-2026-aug-2026-06-28-install-refactor";
+const CACHE_VERSION = "tw-fj-gjn-2026-aug-2026-06-28-install-refactor-v2";
 const CACHE_NAME = `trekworks-${CACHE_VERSION}`;
 
 // -----------------------------------------------------

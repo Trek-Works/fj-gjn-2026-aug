@@ -662,6 +662,23 @@ function getBrowserInfo() {
   };
 }
 
+function showInstallPill() {
+  if (!installPill) return;
+
+  if (isStandaloneMode()) {
+    installPill.style.display = "none";
+    return;
+  }
+
+  installPill.style.display = "inline-flex";
+  installPill.innerHTML = "<span>⬇️</span>Install App";
+}
+
+function hideInstallPill() {
+  if (!installPill) return;
+  installPill.style.display = "none";
+}
+
 async function runNativeInstallPrompt() {
   if (!deferredInstallPrompt) return false;
 
@@ -673,9 +690,13 @@ async function runNativeInstallPrompt() {
   try {
     const choice = await promptEvent.userChoice;
     if (choice && choice.outcome === "accepted") {
-      installPill.style.display = "none";
+      hideInstallPill();
+    } else {
+      showInstallPill();
     }
-  } catch {}
+  } catch {
+    showInstallPill();
+  }
 
   return true;
 }
@@ -683,7 +704,6 @@ async function runNativeInstallPrompt() {
 function showInstallInstructions() {
   const browser = getBrowserInfo();
 
-  // iOS cannot use beforeinstallprompt; Safari manual install is the required path.
   let html = `
     <p>Apple devices install web apps from Safari.</p>
     <ol>
@@ -692,16 +712,15 @@ function showInstallInstructions() {
       <li>Tap <strong>Add to Home Screen</strong>.</li>
     </ol>`;
 
-  // Non-iOS fallback only appears if the user clicks a visible pill without an available native prompt.
-  // This should be rare once manifest.json and service-worker.js are correct.
   if (!browser.isIOS) {
     html = `
-      <p>The browser has not made the automatic install prompt available.</p>
+      <p>Chrome has not made the automatic install prompt available right now.</p>
       <ol>
-        <li>Confirm the page is open in Chrome or Edge.</li>
-        <li>Refresh once and wait for the page to finish loading.</li>
-        <li>Use the browser menu and select <strong>Install app</strong> if shown.</li>
-      </ol>`;
+        <li>Tap the browser menu <strong>⋮</strong> in the top-right corner.</li>
+        <li>Look for <strong>Install app</strong> or <strong>Add to Home screen</strong>.</li>
+        <li>If it does not appear, refresh this page once and try again.</li>
+      </ol>
+      <p><strong>Note:</strong> after uninstalling, Chrome may temporarily delay the native install prompt. This button remains available so the manual install path is always visible.</p>`;
   }
 
   installModalBody.innerHTML = html;
@@ -717,20 +736,19 @@ function hideInstallInstructions() {
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredInstallPrompt = e;
-
-  if (!isStandaloneMode()) {
-    installPill.style.display = "inline-flex";
-    installPill.innerHTML = "<span>⬇️</span>Install App";
-  }
+  showInstallPill();
 });
 
 window.addEventListener("appinstalled", () => {
-  installPill.style.display = "none";
+  hideInstallPill();
   deferredInstallPrompt = null;
 });
 
 installPill.addEventListener("click", async () => {
-  if (isStandaloneMode()) return;
+  if (isStandaloneMode()) {
+    hideInstallPill();
+    return;
+  }
 
   hideInstallInstructions();
 
@@ -739,7 +757,6 @@ installPill.addEventListener("click", async () => {
 
     if (await runNativeInstallPrompt()) return;
 
-    // Only fallback if visible pill was clicked but no native event is available.
     showInstallInstructions();
   } catch {
     showInstallInstructions();
@@ -751,12 +768,10 @@ installModal.addEventListener("click", (event) => {
   if (event.target === installModal) hideInstallInstructions();
 });
 
-// Do not force-show the install pill on Android. The pill appears when the
-// browser confirms installability via beforeinstallprompt. iOS uses the Safari helper.
+// Cloudflare Access remains the security gatekeeper. This page-level check only
+// controls whether an already-authorised browser session shows the install UI.
 (function initialiseInstallPillVisibility() {
-  if (isStandaloneMode()) {
-    installPill.style.display = "none";
-  }
+  showInstallPill();
 })();
 
 if ("serviceWorker" in navigator) {
@@ -765,23 +780,18 @@ if ("serviceWorker" in navigator) {
     .catch(() => Promise.resolve());
 }
 
-(function () {
-  const DISMISS_KEY = "trekworks.iosInstallDismissed";
+(function initialiseIOSInstallHelper() {
+  const DISMISS_KEY = "trekworks.iosInstallDismissed:FJ-GJN-2026-Aug";
   const helper = document.getElementById("iosInstallHelper");
   const dismissBtn = document.getElementById("iosInstallDismiss");
 
   if (!helper || !dismissBtn) return;
 
-  const ua = navigator.userAgent;
-  const isIOS = /iPad|iPhone|iPod/.test(ua);
-  const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
-  const isStandalone =
-    navigator.standalone === true ||
-    window.matchMedia("(display-mode: standalone)").matches;
-
+  const browser = getBrowserInfo();
+  const isSafari = /^((?!chrome|android).)*safari/i.test(browser.ua);
   const dismissed = localStorage.getItem(DISMISS_KEY) === "true";
 
-  if (isIOS && isSafari && !isStandalone && !dismissed) {
+  if (browser.isIOS && isSafari && !isStandaloneMode() && !dismissed) {
     helper.style.display = "block";
   }
 
@@ -789,6 +799,7 @@ if ("serviceWorker" in navigator) {
     localStorage.setItem(DISMISS_KEY, "true");
     helper.style.display = "none";
   });
+})();
 })();
 </script>
 

@@ -74,6 +74,20 @@ details[open] summary::before { transform: rotate(90deg); }
 .link-pill { padding: 6px 12px; font-size: 12px; font-weight: 700; color: #0891b2; white-space: nowrap; flex: 0 0 auto; }
 .link-pill:hover, .pill-button:hover { background: rgba(255,255,255,.96); border-color: rgba(8,145,178,.38); }
 .alert-pill { color: #9a6700; border-color: rgba(217,119,6,.35); background: rgba(254,243,199,.86); }
+.booking-actions-card { padding-top: 16px; padding-bottom: 16px; }
+.booking-actions { margin-top: 10px; }
+.booking-pill {
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(238,251,255,.86));
+  border-color: rgba(14,165,167,.28);
+  color: #007fa0;
+  box-shadow: 0 7px 18px rgba(8,145,178,.09);
+}
+.booking-pill:hover {
+  background: rgba(255,255,255,.98);
+  border-color: rgba(14,165,167,.44);
+  color: #036985;
+}
+
 .bottom-home { display: flex; justify-content: center; margin: 38px 0 0; }
 footer { margin-top: 32px; text-align: center; font-size: 12px; color: #49657f; line-height: 1.45; }
 footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
@@ -131,6 +145,17 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
 <div><div class="meta-key">🪪 IDP</div><div class="meta-value"><strong>International<br>Drivers Permit</strong><br>Carry with you</div></div>
 </div>
 </article>
+
+      <article class="card booking-actions-card">
+        <div class="label">Booking documents</div>
+        <div class="subtext">Keep the booking portal and PDF confirmations handy before pick-up.</div>
+        <div class="card-footer booking-actions">
+          <a class="link-pill booking-pill" href="#" onclick="openExternal('https://www.economybookings.com/en/profile/bookings', 'Booking Portal'); return false;">Booking Portal</a>
+          <a class="link-pill booking-pill" href="#" onclick="openExternal('https://drive.google.com/file/d/1-MIxreCexBQoTO3nscu37vtoMUi4zE1N/preview', 'Booking Confirmation PDF'); return false;">Booking Confirmation PDF</a>
+          <a class="link-pill booking-pill" href="#" onclick="openExternal('https://drive.google.com/file/d/1qsOhsWPjqPg-O2Rn3Kjamw8cIjT7K5gj/preview', 'Excess Protection PDF'); return false;">Excess Protection PDF</a>
+          <a class="link-pill booking-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Nadi%20Airport%20Fiji&output=embed', 'https://www.google.com/maps/search/?api=1&query=Nadi%20Airport%20Fiji'); return false;">Airport Map</a>
+        </div>
+      </article>
 
       <article class="card">
         <div class="label">N.C.H Rentals Contact</div>

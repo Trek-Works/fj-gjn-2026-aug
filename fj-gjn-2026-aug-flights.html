@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flights – JP GJN-2026-May</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    /* ======================================================
+       Root variables
+       ====================================================== */
+    :root {
+      --bg: #050814;
+      --bg-elevated: #0b1020;
+      --bg-card: #0f1629;
+      --border-soft: #1f2940;
+      --accent: #4f8cff;
+      --accent-soft: rgba(79, 140, 255, 0.15);
+      --text-main: #f5f7ff;
+      --text-soft: #9ca3af;
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.45);
+    }
+
+    /* ======================================================
+       Global reset & base
+       ====================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      max-width: 920px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 36px 18px 56px;
+    }
+
+    /* ======================================================
+       Header
+       ====================================================== */
+    .page-header {
+      text-align: center;
+    }
+
+    .page-header .toolbar {
+      justify-content: center;
+    }
+
+    .breadcrumb {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .title {
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--text-soft);
+      text-transform: uppercase;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 26px;
+      align-items: center;
+    }
+
+    .pill-button {
+      border-radius: var(--radius-pill);
+      border: 1px solid #374151;
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-main);
+      font-size: 13px;
+      padding: 6px 14px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ======================================================
+       Cards
+       ====================================================== */
+    .card {
+      background: transparent;
+      border-radius: var(--radius-lg);
+      padding: 6px 20px;
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      margin-top: 14px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .card-meta {
+      font-size: 13px;
+      color: #93c5fd;
+      font-weight: 600;
+    }
+
+    /* ======================================================
+       Meta rows (card content)
+       ====================================================== */
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-top: 6px;
+      margin-bottom: 6px;
+    }
+
+    .meta-label {
+      font-weight: 500;
+      color: #d1d5db;
+      margin-right: 4px;
+    }
+
+    /* ======================================================
+       Card footer (action pills)
+       ====================================================== */
+    .card-footer {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .link-pill {
+      border-radius: var(--radius-pill);
+      border: 1px solid #4b5563;
+      padding: 4px 10px;
+      font-size: 11px;
+      text-decoration: none;
+      color: #e5e7eb;
+      background: #020617;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+
+    /* ======================================================
+       Footer
+       ====================================================== */
+    footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ======================================================
+       Utilities
+       ====================================================== */
+    .desktop-only {
+      display: inline;
+    }
+
+    .mobile-only {
+      display: none;
+    }
+
+    /* ======================================================
+       Mobile overrides (component-scoped)
+       ====================================================== */
+    @media (max-width: 640px) {
+
+      /* Header subtitle */
+      .subtitle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        text-align: center;
+      }
+
+      /* Meta rows */
+      .meta-row {
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      /* Card footer pills */
+      .card-footer {
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .card-footer .link-pill {
+        flex: 1 1 calc(50% - 6px);
+        text-align: center;
+      }
+
+      /* Footer helpers */
+      .desktop-only {
+        display: none;
+      }
+
+      /* Footer helpers */
+      .mobile-only {
+        display: inline;
+      }
+
+      /* ✅ MOBILE FOOTER SAFE AREA FIX */
+      footer {
+        padding-bottom: calc(20px + env(safe-area-inset-bottom));
+      }
+
+      /* ✅ FIX: remove mobile contrast banding */
+      .card {
+        background: var(--bg-card);
+      }
+    }
+
+    /* ===== Site Modal ===== */
+    .site-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,6,11,0.92);
+      display: none;
+      z-index: 9998;
+      padding: 14px;
+    }
+
+    .site-modal.is-open {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .site-modal-shell {
+      width: 100%;
+      height: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      background: #020617;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.75);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .site-modal-header {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background: #0b1020;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .site-modal-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #f9fafb;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .site-modal-close {
+      border: 1px solid #374151;
+      background: #020617;
+      color: #e5e7eb;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .site-modal-frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #fff;
+    }
+
+    @media (max-width: 640px) {
+      .site-modal {
+        padding: 0;
+      }
+
+      .site-modal-shell {
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+      }
+    }
+
+
+    /* ===== Launch Page Modal ===== */
+    .launch-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 6, 11, 0.72);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 18px;
+    }
+
+    .launch-modal {
+      width: min(560px, 100%);
+      background: #0b1020;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
+      overflow: hidden;
+    }
+
+    .launch-modal-header {
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .launch-modal-kicker {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .launch-modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .launch-modal-body {
+      padding: 16px 18px 18px;
+    }
+
+    .launch-field {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      background: #050814;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .launch-field-label {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .launch-field-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      overflow-wrap: anywhere;
+    }
+
+    .launch-modal-note {
+      font-size: 14px;
+      line-height: 1.45;
+      color: var(--text-soft);
+      margin: 16px 0;
+    }
+
+    .launch-modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .launch-action-button,
+    .launch-close-button {
+      border-radius: 999px;
+      border: 1px solid #4b5563;
+      padding: 9px 14px;
+      font-size: 13px;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .launch-action-button {
+      background: rgba(79, 140, 255, 0.15);
+      color: #93c5fd;
+    }
+
+    .launch-close-button {
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    @media (max-width: 640px) {
+      .launch-modal-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===== Offline Overlay (aligned to Accommodation & Activities) ===== */
+
+    .offline-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,6,11,0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .offline-box {
+      max-width: 420px;
+      margin: 20px;
+      padding: 20px 22px;
+      background: linear-gradient(145deg,var(--bg-card, #11141f),var(--bg-soft, #181b26));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.65);
+      text-align: center;
+      font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+
+    .offline-box h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .offline-box p {
+      margin: 0 0 16px;
+      font-size: 14px;
+      color: #b5bed5;
+      line-height: 1.4;
+    }
+
+    .offline-box button {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(78,168,255,0.15);
+      color: #4ea8ff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="page-header">
+      <div class="breadcrumb">GJN-2026-May · Japan Trip</div>
+      <h1 class="title">Flights</h1>
+      <p class="subtitle">
+        <span class="subtitle-main">Air travel for Japan trip</span>
+        <span class="subtitle-dates">(14 May 2026 → 29 May 2026)</span>
+      </p>
+
+      <div class="toolbar">
+        <a href="https://jp-gjn-2026-may.trekworks.org/" class="pill-button" style="color:#93c5fd;">
+          ← Back to Trip Home
+        </a>
+      </div>
+    </div>
+
+    <!-- SYD → KIX -->
+    <article class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Sydney (SYD) → Osaka (KIX)</div>
+          <div class="card-meta">Thu 14 May 2026</div>
+        </div>
+      </div>
+
+      <div class="meta-row">
+        <div><span class="meta-label">Flight:</span> JQ13</div>
+        <div><span class="meta-label">Airline:</span> Jetstar Airways (JQ)</div>
+        <div><span class="meta-label">Aircraft Type:</span> Boeing 787-8</div>
+        <div><span class="meta-label">Booking Reference:</span> MW9FXW</div>
+      </div>
+
+      <div class="meta-row">
+        <div><span class="meta-label">Gavin's Seat:</span> 10H (middle)</div>
+        <div><span class="meta-label">Sema's Seat:</span> 10J (window)</div>
+        <div><span class="meta-label">Extras:</span> Meals, USB port</div>
+      </div>
+
+      <div class="meta-row">
+        <div><span class="meta-label">Depart:</span> 11:00 AM · Sydney</div>
+        <div><span class="meta-label">Arrive:</span> 7:50 PM · Kansai</div>
+        <div><span class="meta-label">Departing Terminal:</span> Sydney Int T1</div>
+      </div>
+
+      <div class="card-footer">
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://flightaware.com/live/flight/JST13', 'Flight Status', 'FlightAware'); return false;">Flight Status</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://www.jetstar.com/au/en/home?', 'Jetstar Login', 'Jetstar'); return false;">Jetstar Login</a>
+        <a class="link-pill" href="#" onclick="handleExternal('https://seatmaps.com/airlines/jq-jetstar-airways/boeing-787-8/#78d69f40906679a976dc4d45cebffbe6', this.textContent.trim()); return false;">Seat Map</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://checkin.jetstar.com/', 'Online Check-In', 'Jetstar'); return false;">Online Check-In</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://drive.google.com/file/d/1zeTNECFCbwFfEuie2oXxfdx6yxXv-9eF/view?usp=sharing', 'Boarding Pass (Sema)', 'Google Drive'); return false;">Boarding Pass (Sema)</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://drive.google.com/file/d/1dcDRR8pFF2yShL_cOy0yHmwxa2zf7AmG/view?usp=sharing', 'Boarding Pass (Gavin)', 'Google Drive'); return false;">Boarding Pass (Gavin)</a>
+      </div>
+    </article>
+
+    <!-- ITM → OKA -->
+    <article class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Osaka (ITM) → Okinawa (OKA)</div>
+          <div class="card-meta">Sun 17 May 2026</div>
+        </div>
+      </div>
+
+      <div class="meta-row">
+        <div><span class="meta-label">Flight:</span> JAL2087</div>
+        <div><span class="meta-label">Airline:</span> Japan Airlines (JAL)</div>
+        <div><span class="meta-label">Aircraft Type:</span> Airbus A350-900</div>
+        <div><span class="meta-label">Booking Number:</span> DTAX6V</div>
+      </div>
+
+      <div class="meta-row">
+        <div><span class="meta-label">Gavin's Seat:</span> 9H (aisle)</div>
+        <div><span class="meta-label">Sema's Seat:</span> 9K (window)</div>
+        <div><span class="meta-label">Extras:</span> Free Wi-Fi, USB port</div>
+      </div>
+
+      <div class="meta-row">
+        <div><span class="meta-label">Depart:</span> 2:50 PM · Itami</div>
+        <div><span class="meta-label">Arrive:</span> 5:00 PM · Naha</div>
+        <div><span class="meta-label">Departing Terminal:</span> Osaka T1 (North)</div>
+      </div>
+
+      <div class="card-footer">
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://flightaware.com/live/flight/JAL2087', 'Flight Status', 'FlightAware'); return false;">Flight Status</a>
+        <a class="link-pill" href="#" onclick="handleExternal('https://www.jal.co.jp/jp/en/', this.textContent.trim()); return false;">JAL Login</a>
+        <a class="link-pill" href="#" onclick="handleExternal('https://seatmaps.com/airlines/jl-jal/airbus-a350-900/#3da972c3ec85b6f3cc5306acf034fd23', this.textContent.trim()); return false;">Seat Map</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://digital.jal.co.jp/ssci/identification?lang=en-GB', 'Online Check-In', 'Japan Airlines'); return false;">Online Check-In</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://drive.google.com/file/d/15hYlgOFYLLUWZTFsSXaKVwcsuztXFHC3/view?usp=sharing', 'Boarding Pass (Sema)', 'Google Drive'); return false;">Boarding Pass (Sema)</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://drive.google.com/file/d/1q-Z5-cd3po4dBi-BX1eUsxnh7nC5MX0r/view?usp=sharing', 'Boarding Pass (Gavin)', 'Google Drive'); return false;">Boarding Pass (Gavin)</a>
+      </div>
+    </article>
+
+    <!-- OKA → FUK -->
+    <article class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Okinawa (OKA) → Fukuoka (FUK)</div>
+          <div class="card-meta">Fri 22 May 2026</div>
+        </div>
+      </div>
+
+      <div class="meta-row">
+        <div><span class="meta-label">Flight:</span> JTA054</div>
+        <div><span class="meta-label">Airline:</span> Japan Airlines (JAL)</div>
+        <div><span class="meta-label">Aircraft Type:</span> Boeing 737-800</div>
+        <div><span class="meta-label">Booking Number:</span> E5NOWM</div>
+      </div>
+
+      <div class="meta-row">
+        <div><span class="meta-label">Gavin's Seat:</span> 15J (aisle)</div>
+        <div><span class="meta-label">Sema's Seat:</span> 15K (window)</div>
+        <div><span class="meta-label">Extras:</span> Free Wi-Fi, USB port</div>
+      </div>
+
+      <div class="meta-row">
+        <div><span class="meta-label">Depart:</span> 1:15 PM · Naha</div>
+        <div><span class="meta-label">Arrive:</span> 3:00 PM · Fukuoka</div>
+        <div><span class="meta-label">Departing Terminal:</span> Naha Domestic (L3)</div>
+      </div>
+
+      <div class="card-footer">
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://flightaware.com/live/flight/JTA054', 'Flight Status', 'FlightAware'); return false;">Flight Status</a>
+        <a class="link-pill" href="#" onclick="handleExternal('https://www.jal.co.jp/jp/en/', this.textContent.trim()); return false;">JAL Login</a>
+        <a class="link-pill" href="#" onclick="handleExternal('https://seatmaps.com/airlines/jl-jal/boeing-737-800/#d756d3d2b9dac72449a6a6926534558a', this.textContent.trim()); return false;">Seat Map</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://digital.jal.co.jp/ssci/identification?lang=en-GB', 'Online Check-In', 'Japan Airlines'); return false;">Online Check-In</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://drive.google.com/file/d/1r8t4Pex4ZD47PXeYuTK2aD9xyUqQMK49/view?usp=sharing', 'Boarding Pass (Sema)', 'Google Drive'); return false;">Boarding Pass (Sema)</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://drive.google.com/file/d/1ibQWGDZ7b_0oeFofX0ilOhjEFELXB-gK/view?usp=sharing', 'Boarding Pass (Gavin)', 'Google Drive'); return false;">Boarding Pass (Gavin)</a>
+      </div>
+    </article>
+
+    <!-- KIX → SYD -->
+    <article class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Osaka (KIX) → Sydney (SYD)</div>
+          <div class="card-meta">Fri 29 May 2026</div>
+        </div>
+      </div>
+
+      <div class="meta-row">
+        <div><span class="meta-label">Flight:</span> JQ14</div>
+        <div><span class="meta-label">Airline:</span> Jetstar Airways (JQ)</div>
+        <div><span class="meta-label">Aircraft Type:</span> Boeing 787-8</div>
+        <div><span class="meta-label">Booking Reference:</span> MW9FXW</div>
+      </div>
+
+      <div class="meta-row">
+        <div><span class="meta-label">Gavin's Seat:</span> 11G (aisle)</div>
+        <div><span class="meta-label">Sema's Seat:</span> 11J (window)</div>
+        <div><span class="meta-label">Extras:</span> Meals, USB port</div>
+      </div>
+
+      <div class="meta-row">
+        <div><span class="meta-label">Depart:</span> 9:25 PM · Kansai</div>
+        <div><span class="meta-label">Arrive:</span> 8:10 AM · Sydney (30 May)</div>
+        <div><span class="meta-label">Terminal:</span> Kansai Int T1</div>
+      </div>
+
+      <div class="card-footer">
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://flightaware.com/live/flight/JST14', 'Flight Status', 'FlightAware'); return false;">Flight Status</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://www.jetstar.com/au/en/home?', 'Jetstar Login', 'Jetstar'); return false;">Jetstar Login</a>
+        <a class="link-pill" href="#" onclick="handleExternal('https://seatmaps.com/airlines/jq-jetstar-airways/boeing-787-8/#78d69f40906679a976dc4d45cebffbe6', this.textContent.trim()); return false;">Seat Map</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://checkin.jetstar.com/', 'Online Check-In', 'Jetstar'); return false;">Online Check-In</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://drive.google.com/file/d/1S7-qOYcelO2Zkx4mOHGuY4IjDLmQj2aG/view?usp=sharing', 'Boarding Pass (Sema)', 'Google Drive'); return false;">Boarding Pass (Sema)</a>
+        <a class="link-pill" href="#" onclick="handleLaunchPage('https://drive.google.com/file/d/1z6wNZKtVNbVGUAGmFP2J04dYTRvjbRlN/view?usp=sharing', 'Boarding Pass (Gavin)', 'Google Drive'); return false;">Boarding Pass (Gavin)</a>
+      </div>
+    </article>
+
+    <div class="toolbar" style="justify-content:center; margin-top:32px; margin-bottom:0;">
+      <a href="https://jp-gjn-2026-may.trekworks.org/" class="pill-button" style="color:#93c5fd;">
+        ← Back to Trip Home
+      </a>
+    </div>
+
+<footer>
+  For getting to and from the airport, use the
+  <a href="https://jp-gjn-2026-may.trekworks.org/airport-limousine-bus.html">Airport Limousine Bus</a>.
+  For terminal maps and airport details, see
+  <a href="https://jp-gjn-2026-may.trekworks.org/airports.html">Airports</a>.
+  <br class="desktop-only">
+  For overnight stays, go to
+  <a href="https://jp-gjn-2026-may.trekworks.org/accommodation.html">Accommodation</a>.
+  For things to do, see
+  <a href="https://jp-gjn-2026-may.trekworks.org/activities.html">Activities</a>.
+</footer>
+  </main>
+
+  <div class="site-modal" id="siteModal" aria-hidden="true">
+    <div class="site-modal-shell">
+      <div class="site-modal-header">
+        <div class="site-modal-title" id="siteModalTitle">Flight Link</div>
+        <button class="site-modal-close" type="button" onclick="closeSiteModal()" aria-label="Close">×</button>
+      </div>
+      <iframe class="site-modal-frame" id="siteModalFrame" src="about:blank" loading="lazy"></iframe>
+    </div>
+  </div>
+
+
+  <div class="launch-modal-overlay" id="launchModalOverlay">
+    <div class="launch-modal" role="dialog" aria-modal="true" aria-labelledby="launchModalTitle">
+      <div class="launch-modal-header">
+        <div class="launch-modal-kicker">Flight link</div>
+        <div class="launch-modal-title" id="launchModalTitle">Flight Link</div>
+      </div>
+      <div class="launch-modal-body">
+        <div class="launch-field">
+          <div class="launch-field-label">Link</div>
+          <div class="launch-field-value" id="launchLinkName">Flight Link</div>
+        </div>
+        <div class="launch-field">
+          <div class="launch-field-label">Provider</div>
+          <div class="launch-field-value" id="launchProviderName">External website</div>
+        </div>
+        <div class="launch-modal-note">
+          This website may block embedded modal pages or require Google account access. Use the button below to open the link while keeping this Flights page available behind it.
+        </div>
+        <div class="launch-modal-actions">
+          <a class="launch-action-button" id="launchOpenButton" href="#" target="_blank" rel="noopener noreferrer">Open Link</a>
+          <button class="launch-close-button" type="button" onclick="closeLaunchModal()">X Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="offline-overlay" id="offlineOverlay">
+    <div class="offline-box">
+      <h2>You’re offline</h2>
+      <p>
+        This content requires an internet connection.<br>
+        You can continue using other parts of the app while offline.
+      </p>
+      <button onclick="closeOffline()">OK</button>
+    </div>
+  </div>
+
+  <script>
+    function handleExternal(url, title) {
+      verifyConnectivity()
+        .then(function () {
+          openSiteModal(url, title || 'Flight Link');
+        })
+        .catch(showOffline);
+    }
+
+
+
+    function handleLaunchPage(url, title, provider) {
+      verifyConnectivity()
+        .then(function () {
+          openLaunchModal(url, title || 'Flight Link', provider || 'External website');
+        })
+        .catch(showOffline);
+    }
+
+    function openLaunchModal(url, title, provider) {
+      const overlay = document.getElementById('launchModalOverlay');
+      const titleEl = document.getElementById('launchModalTitle');
+      const linkNameEl = document.getElementById('launchLinkName');
+      const providerEl = document.getElementById('launchProviderName');
+      const openButton = document.getElementById('launchOpenButton');
+
+      titleEl.textContent = title || 'Flight Link';
+      linkNameEl.textContent = title || 'Flight Link';
+      providerEl.textContent = provider || 'External website';
+      openButton.href = url;
+      openButton.textContent = 'Open ' + (title || 'Link');
+      overlay.style.display = 'flex';
+    }
+
+    function closeLaunchModal() {
+      const overlay = document.getElementById('launchModalOverlay');
+      const openButton = document.getElementById('launchOpenButton');
+
+      overlay.style.display = 'none';
+      openButton.href = '#';
+    }
+
+    function openSiteModal(url, title) {
+      const modal = document.getElementById('siteModal');
+      const frame = document.getElementById('siteModalFrame');
+      const titleEl = document.getElementById('siteModalTitle');
+
+      titleEl.textContent = title || 'Flight Link';
+      frame.src = url;
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeSiteModal() {
+      const modal = document.getElementById('siteModal');
+      const frame = document.getElementById('siteModalFrame');
+
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      frame.src = 'about:blank';
+    }
+
+    function verifyConnectivity() {
+      return new Promise(function (resolve, reject) {
+        const controller = new AbortController();
+        const timeout = setTimeout(function () {
+          controller.abort();
+          reject();
+        }, 800);
+
+        fetch('external.html', {
+          cache: 'no-store',
+          signal: controller.signal
+        })
+          .then(function () {
+            clearTimeout(timeout);
+            resolve();
+          })
+          .catch(function () {
+            clearTimeout(timeout);
+            reject();
+          });
+      });
+    }
+
+    function showOffline() {
+      document.getElementById('offlineOverlay').style.display = 'flex';
+    }
+
+    function closeOffline() {
+      document.getElementById('offlineOverlay').style.display = 'none';
+    }
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closeSiteModal();
+        closeLaunchModal();
+      }
+    });
+  </script>
+</body>
+</html>

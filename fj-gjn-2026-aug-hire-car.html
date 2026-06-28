@@ -118,8 +118,7 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
   </div>
 
   <section class="section">
-    <details open>
-      <summary class="section-title">🚗 Fiji Hire Car — Confirmed Booking</summary>
+    <div class="section-title">🚗 Fiji Hire Car — Confirmed Booking</div>
 
       <article class="card hero-card">
         <div class="label">Toyota Roomy or similar · Compact automatic</div>
@@ -128,11 +127,12 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
           <div class="meta-item"><div class="meta-key">Pick-up</div><div class="meta-value">4 Aug 2026 · 3:00 PM<br>Nadi Airport (NAN)</div></div>
           <div class="meta-item"><div class="meta-key">Drop-off</div><div class="meta-value">11 Aug 2026 · 3:00 PM<br>Nadi Airport (NAN)</div></div>
           <div class="meta-item"><div class="meta-key">Vehicle</div><div class="meta-value">Toyota Roomy or similar<br>5 seats · 2 baggage · 3–5 doors · Automatic · A/C</div></div>
-          <div class="meta-item"><div class="meta-key">Flight</div><div class="meta-value">Arrival flight listed: JQ119<br>Car renter: Mr Gavin Nucifora</div></div>
+          <div class="meta-item"><div class="meta-key">Provider</div><div class="meta-value">EconomyBookings (Booking Group)<br>Rental supplier: N.C.H Rentals<br>Booking number: B81946985</div></div>
         </div>
         <div class="card-footer">
-          <a class="link-pill" href="#" onclick="openModal('Your%20booking%20B81946985%20is%20confirmed.pdf', 'Booking Confirmation'); return false;">Confirmation PDF</a>
-          <a class="link-pill" href="#" onclick="openModal('Hire%20Car%20Booking%20%2804%20-%2011%20Aug%202026%29.pdf', 'Hire Car Booking'); return false;">Booking PDF</a>
+          <a class="link-pill" href="#" onclick="openExternal('https://www.economybookings.com/en/profile/bookings', 'Online Booking'); return false;">Online Booking</a>
+          <a class="link-pill" href="#" onclick="openExternal('https://drive.google.com/file/d/1-MIxreCexBQoTO3nscu37vtoMUi4zE1N/view?usp=sharing', 'Booking Confirmation PDF'); return false;">Booking Confirmation PDF</a>
+          <a class="link-pill" href="#" onclick="openExternal('https://drive.google.com/file/d/1qsOhsWPjqPg-O2Rn3Kjamw8cIjT7K5gj/view?usp=sharing', 'Excess Protection PDF'); return false;">Excess Protection PDF</a>
           <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Nadi%20Airport%20Fiji&output=embed', 'https://www.google.com/maps/search/?api=1&query=Nadi%20Airport%20Fiji'); return false;">View Map</a>
         </div>
       </article>
@@ -148,7 +148,7 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
         <div class="subtext">Bring the booking voucher, valid passport or internationally recognised ID, physical driver licence, and a physical Visa or Mastercard in the primary driver’s name with enough available limit for the excess / security deposit.</div>
         <div class="note">Digital licences are not accepted. An International Driving Permit may also be required depending on licence country of issue. Debit, prepaid and neobank cards may not be accepted unless allowed by the supplier rental agreement.</div>
         <div class="card-footer">
-          <a class="link-pill alert-pill" href="#" onclick="openModal('Your%20booking%20B81946985%20is%20confirmed.pdf', 'Rental Requirements'); return false;">Requirements</a>
+          <a class="link-pill alert-pill" href="#" onclick="return false;">International Drivers Permit</a>
         </div>
       </article>
 
@@ -156,9 +156,7 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
         <div class="label">Full Excess Protection</div>
         <div class="subtext">Full Coverage covers reimbursable excess amounts for damage or theft, including bodywork, glass, tyres, undercarriage, wheels, locks, lost/stolen key costs, towing costs related to damage, and processing/admin fees.</div>
         <div class="note">Coverage requests must be reported to EconomyBookings no later than 30 days after the rental ends. Maximum reimbursement is EUR 1,700 or the same amount in local currency. The security deposit still needs to be left with the rental company at pick-up.</div>
-        <div class="card-footer">
-          <a class="link-pill" href="#" onclick="openModal('Booking%20Group%20Full%20Excess%20Protection.pdf', 'Full Excess Protection'); return false;">Coverage PDF</a>
-        </div>
+
       </article>
 
       <article class="card">
@@ -178,7 +176,6 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
         <div class="subtext">Return the vehicle to Nadi Airport by 3:00 PM on 11 Aug 2026. Confirm return instructions and fuel policy at pick-up.</div>
         <div class="note">Take return photos of the fuel gauge and vehicle condition, and keep any final refuelling receipt if the supplier confirms a full-to-full fuel requirement.</div>
       </article>
-    </details>
   </section>
 
   <div class="bottom-home"><a href="https://fj-gjn-2026-aug.trekworks.org/" class="pill-button">← Back to Trip Home</a></div>
@@ -250,9 +247,45 @@ function openModal(url, title) {
     document.body.style.overflow = 'hidden';
   }).catch(showOffline);
 }
+
+function buildExternalLaunchCard(title, url) {
+  const safeTitle = escapeHtml(title || 'Open external link');
+  const safeUrl = escapeHtml(url || '');
+  return `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(rgba(235,250,253,.76),rgba(244,252,253,.93) 42%,rgba(244,252,253,.98)),url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top/cover fixed;color:#15365f;display:flex;align-items:center;justify-content:center;padding:18px}.launch-card{width:min(560px,100%);background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.99));border:1px solid rgba(8,145,178,.16);border-radius:22px;box-shadow:0 20px 40px rgba(15,118,110,.18);padding:22px;text-align:center}h1{margin:0 0 10px;font-size:20px;line-height:1.25;color:#15365f}p{margin:0 0 16px;color:#49657f;font-size:14px;line-height:1.45}.url{margin:0 0 16px;padding:10px 12px;border:1px solid rgba(8,145,178,.12);border-radius:14px;background:rgba(238,251,255,.72);color:#49657f;font-size:12px;overflow-wrap:anywhere;text-align:left}a{display:inline-flex;justify-content:center;align-items:center;width:100%;border-radius:999px;border:1px solid transparent;background:linear-gradient(135deg,#0ea5b7,#0284c7);color:#fff;padding:11px 14px;text-decoration:none;font-size:14px;font-weight:700}
+</style></head><body><div class="launch-card"><h1>${safeTitle}</h1><p>This page may block embedded app views. Open it directly in your browser, then use the X Close button above to return to the trip app.</p><div class="url">${safeUrl}</div><a href="${safeUrl}" target="_blank" rel="noopener">Open in Browser</a></div></body></html>`;
+}
+function escapeHtml(value) {
+  return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+function isFrameBlockedExternal(url) {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, '').toLowerCase();
+    return host === 'economybookings.com' || host.endsWith('.economybookings.com') || host === 'bookinggroup.com' || host.endsWith('.bookinggroup.com');
+  } catch { return true; }
+}
+function openExternal(url, title) {
+  verifyConnectivity().then(function () {
+    document.getElementById('modalTitle').textContent = title || 'External Link';
+    const frame = document.getElementById('modalFrame');
+    if (isFrameBlockedExternal(url)) {
+      frame.removeAttribute('src');
+      frame.srcdoc = buildExternalLaunchCard(title, url);
+    } else {
+      frame.removeAttribute('srcdoc');
+      frame.src = 'fj-gjn-2026-aug-external.html?url=' + encodeURIComponent(url);
+    }
+    document.getElementById('modalOverlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }).catch(showOffline);
+}
+
 function closeModal() {
   document.getElementById('modalOverlay').style.display = 'none';
   document.getElementById('modalFrame').removeAttribute('src');
+  document.getElementById('modalFrame').removeAttribute('srcdoc');
   document.body.style.overflow = '';
 }
 function verifyConnectivity() {

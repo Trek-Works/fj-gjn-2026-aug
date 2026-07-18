@@ -64,11 +64,13 @@ body {
 .label-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .ref { font-size: 12px; color: #0891b2; font-weight: 800; white-space: nowrap; }
 .subtext { font-size: 13px; color: #49657f; margin-top: 5px; line-height: 1.45; }
-.plan-grid { display: grid; grid-template-columns: minmax(130px,.8fr) minmax(120px,.7fr) minmax(130px,.8fr) minmax(150px,1fr) minmax(160px,1fr); gap: 0; margin-top: 15px; }
+.plan-grid { display: grid; grid-template-columns: minmax(145px,.9fr) minmax(125px,.75fr) minmax(270px,1.55fr) minmax(165px,1fr); gap: 0; margin-top: 15px; }
 .plan-item { padding: 0 18px 0 0; }
 .plan-item + .plan-item { border-left: 1px solid rgba(8,145,178,.14); padding-left: 18px; }
 .meta-key { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #0891b2; margin-bottom: 4px; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
 .meta-value { font-size: 14px; color: #15365f; line-height: 1.35; }
+.meta-value a { color: #0891b2; text-decoration: none; font-weight: 700; }
+.meta-value a:hover { text-decoration: underline; }
 .card-footer { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
 .link-pill { padding: 6px 12px; font-size: 12px; font-weight: 700; color: #0891b2; white-space: nowrap; flex: 0 0 auto; }
 .link-pill:hover, .pill-button:hover { background: rgba(255,255,255,.96); border-color: rgba(8,145,178,.38); }
@@ -132,14 +134,12 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
       <div class="plan-grid">
         <div class="plan-item"><div class="meta-key">⭐ Suggested</div><div class="meta-value"><strong>$35 Bula Pack</strong><br>50GB data<br>10 day plan</div></div>
         <div class="plan-item"><div class="meta-key">💲 Price</div><div class="meta-value">FJD $35<br>$10 purchased credit</div></div>
-        <div class="plan-item"><div class="meta-key">📞 Calls</div><div class="meta-value">75 local mins<br>75 international mins</div></div>
-        <div class="plan-item"><div class="meta-key">💬 SMS</div><div class="meta-value">Unlimited local on-net SMS<br>VF-VF &amp; INKK</div></div>
+        <div class="plan-item"><div class="meta-key">☎️ Support</div><div class="meta-value"><a href="#" onclick="handleExternal('https://esim.vodafone.com.fj/support?tab=call-support', 'Vodafone Fiji eSIM Support'); return false;">Call Support</a><br><strong>+679 9902 123</strong><br>7 days a week · 9 AM–9 PM Fiji Time</div></div>
         <div class="plan-item"><div class="meta-key">🗓️ Validity</div><div class="meta-value">Plan valid 10 days<br>SIM valid 90 days</div></div>
       </div>
       <div class="card-footer">
-        <a class="link-pill" href="#" onclick="openExternalModal('Vodafone Fiji', 'https://www.vodafone.com.fj/'); return false;">Vodafone Fiji</a>
-        <a class="link-pill" href="#" onclick="openExternalModal('Vodafone Fiji Tourist eSIM', 'https://www.vodafone.com.fj/'); return false;">Tourist SIM Offers</a>
-        <a class="link-pill" href="#" onclick="openExternalModal('Vodafone Fiji Account Login', 'https://www.vodafone.com.fj/'); return false;">Login / Account</a>
+        <a class="link-pill" href="#" onclick="handleExternal('https://esim.vodafone.com.fj/login', 'Vodafone Fiji Account Login'); return false;">Account Login</a>
+        <a class="link-pill" href="#" onclick="handleExternal('https://drive.google.com/file/d/19v6aCRZk4f0iqepVw_0JEotJeeZfHun5/view?usp=drive_link', 'Vodafone Fiji eSIM User Manual'); return false;">User Manual</a>
       </div>
     </article>
   </section>
@@ -176,13 +176,14 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
 </div>
 
 <script>
-function openExternalModal(title, url) {
+function handleExternal(url, title) {
   verifyConnectivity()
     .then(function () {
-      document.getElementById('externalModalTitle').textContent = title;
-      document.getElementById('externalModalFrame').src = 'external.html?url=' + encodeURIComponent(url);
+      document.getElementById('externalModalTitle').textContent = title || 'External Link';
+      document.getElementById('externalModalFrame').src = 'fj-gjn-2026-aug-external.html?url=' + encodeURIComponent(url);
       document.getElementById('externalModal').style.display = 'flex';
       document.getElementById('externalModal').setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
     })
     .catch(showOffline);
 }
@@ -191,30 +192,49 @@ function closeExternalModal() {
   document.getElementById('externalModalFrame').src = '';
   document.getElementById('externalModal').style.display = 'none';
   document.getElementById('externalModal').setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
 }
 
 document.addEventListener('keydown', function (event) {
-  if (event.key === 'Escape') closeExternalModal();
+  if (event.key === 'Escape') {
+    closeExternalModal();
+    closeOffline();
+  }
 });
 
-function handleExternal(url) {
-  verifyConnectivity()
-    .then(function () { window.location.href = 'external.html?url=' + encodeURIComponent(url); })
-    .catch(showOffline);
-}
+document.getElementById('externalModal').addEventListener('click', function (event) {
+  if (event.target.id === 'externalModal') closeExternalModal();
+});
 
 function verifyConnectivity() {
   return new Promise(function (resolve, reject) {
-    if (typeof navigator !== 'undefined' && navigator.onLine === false) { reject(); return; }
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+      reject();
+      return;
+    }
+
     const controller = new AbortController();
-    const timeout = setTimeout(function () { controller.abort(); reject(); }, 800);
-    fetch('external.html', { cache: 'no-store', signal: controller.signal })
+    const timeout = setTimeout(function () {
+      controller.abort();
+      reject();
+    }, 800);
+
+    fetch('fj-gjn-2026-aug-external.html', {
+      cache: 'no-store',
+      signal: controller.signal
+    })
       .then(function (response) {
         clearTimeout(timeout);
-        if (response && response.ok === false) { reject(); return; }
+        if (response && response.ok === false) {
+          reject();
+          return;
+        }
         resolve();
       })
-      .catch(function () { clearTimeout(timeout); reject(); });
+      .catch(function () {
+        clearTimeout(timeout);
+        reject();
+      });
   });
 }
 

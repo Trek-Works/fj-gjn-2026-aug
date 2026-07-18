@@ -134,12 +134,12 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
       <div class="plan-grid">
         <div class="plan-item"><div class="meta-key">⭐ Suggested</div><div class="meta-value"><strong>$35 Bula Pack</strong><br>50GB data<br>10 day plan</div></div>
         <div class="plan-item"><div class="meta-key">💲 Price</div><div class="meta-value">FJD $35<br>$10 purchased credit</div></div>
-        <div class="plan-item"><div class="meta-key">☎️ Support</div><div class="meta-value"><a href="#" onclick="handleExternal('https://esim.vodafone.com.fj/support?tab=call-support', 'Vodafone Fiji eSIM Support'); return false;">Call Support</a><br><strong>+679 9902 123</strong><br>7 days a week · 9 AM–9 PM Fiji Time</div></div>
+        <div class="plan-item"><div class="meta-key">☎️ Support</div><div class="meta-value"><a href="#" onclick="openExternalLaunch('https://esim.vodafone.com.fj/support?tab=call-support', 'Vodafone Fiji eSIM Support', 'Open Call Support'); return false;">Call Support</a><br><strong>+679 9902 123</strong><br>7 days a week · 9 AM–9 PM Fiji Time</div></div>
         <div class="plan-item"><div class="meta-key">🗓️ Validity</div><div class="meta-value">Plan valid 10 days<br>SIM valid 90 days</div></div>
       </div>
       <div class="card-footer">
-        <a class="link-pill" href="#" onclick="handleExternal('https://esim.vodafone.com.fj/login', 'Vodafone Fiji Account Login'); return false;">Account Login</a>
-        <a class="link-pill" href="#" onclick="handleExternal('https://drive.google.com/file/d/19v6aCRZk4f0iqepVw_0JEotJeeZfHun5/view?usp=drive_link', 'Vodafone Fiji eSIM User Manual'); return false;">User Manual</a>
+        <a class="link-pill" href="#" onclick="openExternalLaunch('https://esim.vodafone.com.fj/login', 'Vodafone Fiji Account Login', 'Open Account Login'); return false;">Account Login</a>
+        <a class="link-pill" href="#" onclick="openDocumentPreview('https://drive.google.com/file/d/19v6aCRZk4f0iqepVw_0JEotJeeZfHun5/preview', 'Vodafone Fiji eSIM User Manual'); return false;">User Manual</a>
       </div>
     </article>
   </section>
@@ -176,20 +176,79 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
 </div>
 
 <script>
-function handleExternal(url, title) {
+function showExternalModal(title) {
+  document.getElementById('externalModalTitle').textContent = title || 'External Link';
+  document.getElementById('externalModal').style.display = 'flex';
+  document.getElementById('externalModal').setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function buildExternalLaunchCard(title, url, buttonLabel) {
+  const safeTitle = escapeHtml(title || 'Open external link');
+  const safeUrl = escapeHtml(url || '');
+  const safeButtonLabel = escapeHtml(buttonLabel || 'Open in Browser');
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(rgba(235,250,253,.76),rgba(244,252,253,.93) 42%,rgba(244,252,253,.98)),url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top/cover fixed;color:#15365f;display:flex;align-items:center;justify-content:center;padding:18px}
+.launch-card{width:min(560px,100%);background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.99));border:1px solid rgba(8,145,178,.16);border-radius:22px;box-shadow:0 20px 40px rgba(15,118,110,.18);padding:22px;text-align:center}
+h1{margin:0 0 10px;font-size:20px;line-height:1.25;color:#15365f}
+p{margin:0 0 16px;color:#49657f;font-size:14px;line-height:1.45}
+.url{margin:0 0 16px;padding:10px 12px;border:1px solid rgba(8,145,178,.12);border-radius:14px;background:rgba(238,251,255,.72);color:#49657f;font-size:12px;overflow-wrap:anywhere;text-align:left}
+a{display:inline-flex;justify-content:center;align-items:center;width:100%;border-radius:999px;border:1px solid transparent;background:linear-gradient(135deg,#0ea5b7,#0284c7);color:#fff;padding:11px 14px;text-decoration:none;font-size:14px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="launch-card">
+  <h1>${safeTitle}</h1>
+  <p>Vodafone blocks this secure page from loading inside an embedded trip-app window. Open it directly in your browser, then return to this page when finished.</p>
+  <div class="url">${safeUrl}</div>
+  <a href="${safeUrl}" target="_blank" rel="noopener">${safeButtonLabel}</a>
+</div>
+</body>
+</html>`;
+}
+
+function openExternalLaunch(url, title, buttonLabel) {
   verifyConnectivity()
     .then(function () {
-      document.getElementById('externalModalTitle').textContent = title || 'External Link';
-      document.getElementById('externalModalFrame').src = 'fj-gjn-2026-aug-external.html?url=' + encodeURIComponent(url);
-      document.getElementById('externalModal').style.display = 'flex';
-      document.getElementById('externalModal').setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
+      const frame = document.getElementById('externalModalFrame');
+      frame.removeAttribute('src');
+      frame.srcdoc = buildExternalLaunchCard(title, url, buttonLabel);
+      showExternalModal(title);
+    })
+    .catch(showOffline);
+}
+
+function openDocumentPreview(url, title) {
+  verifyConnectivity()
+    .then(function () {
+      const frame = document.getElementById('externalModalFrame');
+      frame.removeAttribute('srcdoc');
+      frame.src = url;
+      showExternalModal(title);
     })
     .catch(showOffline);
 }
 
 function closeExternalModal() {
-  document.getElementById('externalModalFrame').src = '';
+  const frame = document.getElementById('externalModalFrame');
+  frame.removeAttribute('src');
+  frame.removeAttribute('srcdoc');
   document.getElementById('externalModal').style.display = 'none';
   document.getElementById('externalModal').setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';

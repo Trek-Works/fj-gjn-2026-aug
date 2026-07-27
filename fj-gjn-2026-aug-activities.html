@@ -1,1343 +1,737 @@
 <!DOCTYPE html>
-
-<!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>Activities – JP GJN-2026-May</title>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Activities – FJ-GJN-2026-Aug</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link rel="canonical" href="https://fj-gjn-2026-aug.trekworks.org/fj-gjn-2026-aug-activities.html"/>
 <style>
-   :root {
-      --bg: #050814;
-      --bg-elevated: #0b1020;
-      --bg-card: #0f1629;
-      --bg-optional: #0b1122;
-      --border-soft: #1f2940;
-      --accent: #4f8cff;
-      --accent-soft: rgba(79, 140, 255, 0.15);
-      --text-main: #f5f7ff;
-      --text-muted: #b3bde6;
-      --text-soft: #9ca3af;
-      --radius-lg: 18px;
-      --radius-sm: 999px;
-      --radius-pill: 999px;
-      --shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.45);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      min-height: 100vh;
-      font-family: system-ui, sans-serif;
-      background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
-      color: var(--text-main);
-      -webkit-font-smoothing: antialiased;
-      display: flex;
-      justify-content: center;
-    }
-
-    .page {
-      max-width: 920px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 36px 18px 56px;
-      background: transparent;
-    }
-
-    /* ===== Header ===== */
-
-    .page-header {
-      text-align: center;
-    }
-
-    .page-header .toolbar {
-      justify-content: center;
-    }
-
-    .breadcrumb {
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-size: 12px;
-      color: #9ca3af;
-      margin-bottom: 6px;
-    }
-
-    .title {
-      font-size: 30px;
-      font-weight: 700;
-    }
-
-    .subtitle {
-      margin-top: 4px;
-      font-size: 12px;
-      color: #9ca3af;
-      text-transform: uppercase;
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 18px 0 26px;
-      align-items: center;
-    }
-
-    .pill-button {
-      border-radius: 999px;
-      border: 1px solid #374151;
-      background: rgba(15, 23, 42, 0.9);
-      color: var(--text-main);
-      font-size: 13px;
-      padding: 6px 14px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* ===== Sections ===== */
-
-    .section {
-      margin-top: 48px;
-    }
-
-    /* NEW: section-level collapsible wrapper */
-    .section > details.section-collapse {
-      border: 0;
-    }
-
-    /* Make the section summary behave like your existing header block */
-    .section > details.section-collapse > summary.section-header {
-      margin-bottom: 14px; /* preserve original spacing */
-    }
-
-    /* Remove default marker for section summary only (optional activities keep existing behaviour) */
-    .section > details.section-collapse > summary.section-header::-webkit-details-marker {
-      display: none;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 14px;
-      gap: 12px;
-    }
-
-    /* When section-header is used as a <summary>, we don't want double bottom margin */
-    .section > details.section-collapse > summary.section-header {
-      margin-bottom: 14px;
-    }
-
-    .section-title {
-      font-size: 17px;
-      font-weight: 600;
-    }
-
-    .section-subtitle {
-      font-size: 13px;
-      color: var(--text-soft);
-      margin-top: 4px;
-    }
-
-    .pill {
-      font-size: 12px;
-      padding: 5px 12px;
-      border-radius: var(--radius-sm);
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-
-    /* ===== Cards ===== */
-
-    .card {
-      background: transparent;
-      border-radius: var(--radius-lg);
-      padding: 6px 20px;
-      border: 1px solid var(--border-soft);
-      box-shadow: var(--shadow-soft);
-      margin-top: 14px;
-    }
-
-    .card.optional {
-      background: transparent;
-      box-shadow: none;
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 8px;
-    }
-
-    .card-title {
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .card-meta {
-      font-size: 13px;
-      color: var(--text-soft);
-    }
-
-    .meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      font-size: 13px;
-      color: var(--text-soft);
-      margin-top: 6px;
-      margin-bottom: 10px;
-    }
-
-
-    /* Activities metadata aligned to Accommodation index */
-    .activity-meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      font-size: 13px;
-      color: var(--text-soft);
-      margin-top: 6px;
-      margin-bottom: 10px;
-    }
-
-    .activity-meta-row .label {
-      font-weight: 500;
-      color: #d1d5db !important;
-      margin-right: 4px;
-    }
-
-    .activity-meta-row .meta-value {
-      color: var(--text-soft);
-    }
-
-    /* Accommodation metadata contract */
-    .meta-label {
-      font-weight: 500;
-      color: #d1d5db;
-      margin-right: 4px;
-    }
-
-    /* Backwards-compatible alias for existing Activities markup */
-    .meta-row .label {
-      font-weight: 500;
-      color: #d1d5db;
-      margin-right: 4px;
-    }
-
-    ul.planned-list {
-      list-style: none;
-      margin-top: 10px;
-      font-size: 13px;
-      line-height: 1.55;
-      color: #dbe3ff;
-    }
-
-    ul.planned-list li {
-      margin-bottom: 8px;
-      padding-left: 18px;
-      position: relative;
-    }
-
-    ul.planned-list li:last-child {
-    margin-bottom: 4px;
-    }
-
-    ul.planned-list li::before {
-      content: "•";
-      position: absolute;
-      left: 4px;
-      color: var(--accent);
-    }
-
-    .optional-label {
-      font-size: 12px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-soft);
-      margin-bottom: 6px;
-    }
-
-    .optional-note {
-      font-size: 14px;
-      color: var(--text-soft);
-      margin-bottom: 12px;
-    }
-
-    .divider {
-      height: 1px;
-      background: linear-gradient(
-        to right,
-        rgba(255, 255, 255, 0.05),
-        rgba(255, 255, 255, 0.02),
-        transparent
-      );
-      margin: 14px 0;
-    }
-
-    .card-footer {
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .link-pill {
-      border-radius: var(--radius-pill);
-      border: 1px solid #4b5563;
-      padding: 4px 10px;
-      font-size: 11px;
-      text-decoration: none;
-      color: #e5e7eb;
-      background: #020617;
-      white-space: nowrap;
-      flex: 0 0 auto;
-    }
-
-    footer {
-      margin-top: 56px;
-      text-align: center;
-      font-size: 12px;
-      color: var(--text-soft);
-    }
-
-    footer a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    /* Footer line-break control */
-    .desktop-only {
-      display: inline;
-    }
-
-    @media (max-width: 640px) {
-      .desktop-only {
-        display: none;
-      }
-    }
-
-    /* ===== <details> Chevron ===== */
-
-    details summary {
-      list-style: none;
-      cursor: pointer;
-      position: relative;
-      padding-left: 22px;
-    }
-
-    details summary::before {
-      content: "▶";
-      position: absolute;
-      left: 0;
-      top: 1px;
-      font-size: 13px;
-      color: var(--text-soft);
-      transition: transform 0.2s ease;
-    }
-
-    details[open] summary::before {
-      transform: rotate(90deg);
-    }
-
-    /* ===== Mobile ===== */
-
-    @media (max-width: 640px) {
-      .subtitle {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2px;
-        text-align: center;
-      }
-
-      .subtitle-dates {
-        font-size: 13px;
-      }
-
-      /* Meta rows (Dates/Base, Base/Nights, Optional meta) — align with Accommodation */
-      .meta-row,
-      .activity-meta-row {
-        flex-direction: column;
-        gap: 6px;
-      }
-
-      .section-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-      }
-
-      /* MOBILE FIX: make footer pills wrap nicely (match Airport + Accommodation) */
-      .card-footer {
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-
-      .card-footer .link-pill {
-        flex: 1 1 calc(50% - 6px);
-        text-align: center;
-      }
-    }
-
-    /* ===== Offline Overlay ===== */
-
-    .offline-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(5, 6, 11, 0.88);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-
-    .offline-box {
-      max-width: 420px;
-      margin: 20px;
-      padding: 20px 22px;
-      background: linear-gradient(
-        145deg,
-        var(--bg-card, #11141f),
-        var(--bg-soft, #181b26)
-      );
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 18px;
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
-      text-align: center;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    .offline-box h2 {
-      margin: 0 0 10px;
-      font-size: 20px;
-    }
-
-    .offline-box p {
-      margin: 0 0 16px;
-      font-size: 14px;
-      color: #b5bed5;
-      line-height: 1.4;
-    }
-
-    .offline-box button {
-      padding: 8px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(78, 168, 255, 0.15);
-      color: #4ea8ff;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    /* ===== Full-screen Modals (aligned to Hire Car index) ===== */
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(5, 6, 11, 0.88);
-      display: none;
-      flex-direction: column;
-      z-index: 9998;
-    }
-
-    .modal-shell {
-      width: 100%;
-      height: 100%;
-      background: #020617;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .modal-header {
-      height: 52px;
-      min-height: 52px;
-      background: #0b1020;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 14px;
-      color: #f9fafb;
-      font-size: 14px;
-    }
-
-    .modal-title {
-      font-weight: 600;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      padding-right: 12px;
-      flex: 1 1 auto;
-    }
-
-    .modal-open {
-      display: none;
-    }
-
-    .modal-close {
-      border: 1px solid rgba(255,255,255,0.16);
-      background: #020617;
-      color: #f9fafb;
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 13px;
-      cursor: pointer;
-      flex: 0 0 auto;
-    }
-
-    .modal-frame {
-      width: 100%;
-      height: calc(100vh - 52px);
-      border: 0;
-      background: #020617;
-    }
-
-    .modal-launch {
-      display: none;
-      flex: 1 1 auto;
-      align-items: center;
-      justify-content: center;
-      padding: 22px;
-      background: #020617;
-    }
-
-    .launch-card {
-      width: min(560px, 100%);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 18px;
-      background: linear-gradient(145deg, rgba(79, 140, 255, 0.14), rgba(15, 22, 41, 0.92));
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
-      padding: 22px;
-      text-align: center;
-    }
-
-    .launch-card h2 {
-      margin: 0 0 10px;
-      font-size: 20px;
-      color: #f5f7ff;
-    }
-
-    .launch-card p {
-      margin: 0 0 18px;
-      font-size: 14px;
-      line-height: 1.45;
-      color: #b5bed5;
-    }
-
-    .launch-card a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      border: 1px solid rgba(147, 197, 253, 0.55);
-      background: rgba(79, 140, 255, 0.16);
-      color: #bfdbfe;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-    }
-
-    .map-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(5, 6, 11, 0.88);
-      display: none;
-      flex-direction: column;
-      z-index: 9998;
-    }
-
-    .map-modal-header {
-      height: 52px;
-      min-height: 52px;
-      background: #0b1020;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 14px;
-      color: #f9fafb;
-      font-size: 14px;
-    }
-
-    .map-modal-title {
-      font-weight: 600;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      padding-right: 12px;
-      flex: 1 1 auto;
-    }
-
-    .map-modal-close {
-      border: 1px solid rgba(255,255,255,0.16);
-      background: #020617;
-      color: #f9fafb;
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 13px;
-      cursor: pointer;
-      flex: 0 0 auto;
-    }
-
-    .map-modal iframe {
-      width: 100%;
-      height: calc(100vh - 52px);
-      border: 0;
-      background: #020617;
-    }
-
-    @media (max-width: 640px) {
-      .modal-shell {
-        height: 100%;
-        width: 100%;
-      }
-
-      .modal-header,
-      .map-modal-header {
-        height: 48px;
-        min-height: 48px;
-      }
-
-      .modal-frame,
-      .map-modal iframe {
-        height: calc(100vh - 48px);
-      }
-
-      .modal-open {
-        display: none;
-      }
-    }
-
-  </style>
+:root {
+  --bg-main: #eefbff;
+  --bg-card: rgba(255,255,255,0.94);
+  --bg-card-soft: rgba(255,255,255,0.98);
+  --border-soft: rgba(8,145,178,0.16);
+  --text-main: #15365f;
+  --text-muted: #49657f;
+  --accent-blue: #0891b2;
+  --accent-teal: #0ea5a7;
+  --accent-soft: rgba(8,145,178,0.12);
+  --text-soft: #49657f;
+  --shadow-soft: 0 10px 28px rgba(15,118,110,0.12);
+  --radius-xl: 18px;
+  --radius-pill: 999px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:
+    linear-gradient(rgba(235,250,253,.76), rgba(244,252,253,.93) 42%, rgba(244,252,253,.98)),
+    url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top / cover fixed;
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  justify-content: center;
+}
+
+.page {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 18px 80px;
+}
+
+.page-header { text-align: center; }
+.page-header .toolbar { justify-content: center; }
+
+.breadcrumb {
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  font-size: 12px;
+  color: #0f6f88;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: clamp(28px,3.6vw,42px);
+  font-weight: 800;
+  color: #15365f;
+  text-shadow: 0 1px 0 rgba(255,255,255,.6);
+  margin: 0;
+}
+
+.subtitle {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #244c72;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 26px;
+  align-items: center;
+  justify-content: center;
+}
+
+.pill-button,
+.link-pill,
+.map-modal-close,
+.map-open-link,
+.website-browser-modal-close,
+.offline-box button {
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(8,145,178,.22);
+  background: rgba(255,255,255,.82);
+  color: #15365f;
+  box-shadow: 0 8px 20px rgba(8,145,178,.10);
+  backdrop-filter: blur(8px);
+  text-decoration: none;
+}
+
+.pill-button {
+  padding: 8px 15px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0891b2;
+}
+
+.section { margin-top: 30px; }
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0 10px;
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #15365f;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.section-header-left .emoji { font-size: 18px; }
+.section-header-meta { font-size: 12px; color: #49657f; }
+
+.cards {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card {
+  width: 100%;
+  background: linear-gradient(180deg,var(--bg-card),var(--bg-card-soft));
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(10px);
+  padding: 18px 19px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.card-title {
+  color: #15365f;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.card-status {
+  font-size: 12px;
+  color: #7a8ea5;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.subtext {
+  font-size: 13px;
+  color: #49657f;
+  margin-top: 5px;
+  line-height: 1.45;
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: 13px;
+  color: #49657f;
+  margin-top: 8px;
+}
+
+.meta-label {
+  color: #244c72;
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.card-footer {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.link-pill {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0891b2;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.link-pill:hover,
+.pill-button:hover,
+.map-modal-close:hover,
+.map-open-link:hover,
+.website-browser-modal-close:hover {
+  background: rgba(255,255,255,.96);
+  border-color: rgba(8,145,178,.38);
+}
+
+.pending-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  border: 1px dashed rgba(73,101,127,.32);
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #7a8ea5;
+  background: rgba(238,251,255,.64);
+  white-space: nowrap;
+  cursor: default;
+}
+
+/* Compact venue / restaurant rows */
+.venue-list { margin-top: 4px; }
+.venue-row {
+  display: grid;
+  grid-template-columns: minmax(190px,1.4fr) minmax(175px,1.25fr) minmax(165px,1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 13px 0;
+  border-top: 1px solid rgba(8,145,178,.12);
+}
+.venue-row:first-child { border-top: 0; padding-top: 4px; }
+.venue-name { font-size: 14px; font-weight: 750; color: #15365f; }
+.venue-note { font-size: 12px; color: #49657f; line-height: 1.4; margin-top: 2px; }
+.venue-label {
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #0891b2;
+  font-weight: 800;
+  margin-bottom: 3px;
+}
+.venue-value { font-size: 13px; color: #49657f; line-height: 1.35; }
+.venue-actions { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; }
+.venue-actions .link-pill, .venue-actions .pending-pill { padding: 5px 10px; font-size: 11px; }
+
+.location-card + .location-card { margin-top: 14px; }
+.location-title-row { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+.location-title { font-size: 17px; font-weight: 750; color:#15365f; }
+.location-base { font-size: 12px; color:#0891b2; font-weight:800; }
+
+.note-strip {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(8,145,178,.12);
+  background: rgba(238,251,255,.72);
+  border-radius: 14px;
+  font-size: 12px;
+  color: #49657f;
+  line-height: 1.45;
+}
+
+.footer-nav {
+  margin-top: 32px;
+  padding-top: 0;
+  border-top: none;
+  font-size: 12px;
+  color: #49657f;
+  text-align: center;
+}
+.footer-line { max-width: 980px; margin: 0 auto; line-height: 1.45; color:#49657f; }
+.footer-line a { color:#0891b2; font-weight:700; text-decoration:none; white-space:nowrap; }
+.footer-line a:hover { text-decoration: underline; }
+.desktop-only { display: inline; }
+.mobile-only { display: none; }
+
+/* Map modal */
+.map-modal,
+.website-browser-modal,
+.offline-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(21,54,95,0.34);
+  backdrop-filter: blur(10px);
+  display: none;
+  z-index: 9998;
+}
+.map-modal,
+.website-browser-modal { flex-direction: column; }
+.offline-overlay { align-items:center; justify-content:center; z-index:9999; }
+
+.map-modal-header,
+.website-browser-modal-header {
+  height: 52px;
+  min-height: 52px;
+  background: rgba(255,255,255,0.96);
+  border-bottom: 1px solid rgba(8,145,178,0.16);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  color: #15365f;
+  font-size: 14px;
+}
+.map-modal-title,
+.website-browser-modal-title {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 12px;
+  flex: 1 1 auto;
+}
+.map-modal-actions { display:flex; align-items:center; gap:8px; flex:0 0 auto; }
+.map-modal-close,
+.map-open-link,
+.website-browser-modal-close {
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  color:#15365f;
+}
+.map-modal iframe,
+.website-browser-modal iframe {
+  width: 100%;
+  height: calc(100vh - 52px);
+  border: 0;
+  background: #eefbff;
+}
+
+.offline-box {
+  max-width: 420px;
+  margin: 20px;
+  padding: 20px 22px;
+  background: linear-gradient(180deg,rgba(255,255,255,0.96),rgba(255,255,255,0.99));
+  border: 1px solid rgba(8,145,178,0.16);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(15,118,110,.18);
+  text-align: center;
+}
+.offline-box h2 { margin:0 0 10px; font-size:20px; color:#15365f; }
+.offline-box p { margin:0 0 16px; font-size:14px; color:#49657f; line-height:1.4; }
+.offline-box button { padding:8px 16px; font-size:14px; color:#0891b2; cursor:pointer; }
+
+@media (max-width: 860px) {
+  .venue-row { grid-template-columns: 1.2fr 1fr; }
+  .venue-actions { justify-content:flex-start; }
+}
+
+@media (max-width: 640px) {
+  .subtitle { display:flex; flex-direction:column; align-items:center; gap:2px; text-align:center; }
+  .card-header { flex-direction:column; align-items:flex-start; gap:3px; }
+  .meta-row { flex-direction:column; gap:6px; }
+  .card-footer { gap:6px; }
+  .card-footer .link-pill,
+  .card-footer .pending-pill { flex:1 1 calc(50% - 6px); justify-content:center; text-align:center; }
+  .location-title-row { flex-direction:column; align-items:flex-start; gap:3px; }
+  .venue-row { grid-template-columns:1fr; gap:8px; padding:14px 0; }
+  .venue-actions { justify-content:flex-start; }
+  .venue-actions .link-pill,
+  .venue-actions .pending-pill { flex:1 1 calc(50% - 6px); justify-content:center; text-align:center; }
+  .footer-line { line-height:1.8; }
+  .desktop-only { display:none; }
+  .mobile-only { display:inline; }
+}
+</style>
 </head>
 <body>
-<div class="page">
-<div class="page-header">
-<div class="breadcrumb">
-     GJN-2026-May · Japan Trip
+<main class="page">
+  <div class="page-header">
+    <div class="breadcrumb">FJ-GJN-2026-Aug · Fiji Trip</div>
+    <h1 class="title">Activities</h1>
+    <p class="subtitle">
+      <span>Day trips, dining &amp; nightlife quick reference</span>
+      <span>(4 Aug 2026 → 11 Aug 2026)</span>
+    </p>
+    <div class="toolbar">
+      <a class="pill-button" href="https://fj-gjn-2026-aug.trekworks.org/">← Back to Trip Home</a>
     </div>
-<h1 class="title">
-     Activities
-    </h1>
-<p class="subtitle">
-<span class="subtitle-main">
-      Activities for Japan trip
-     </span>
-<span class="subtitle-dates">
-      (14 May 2026 → 29 May 2026)
-     </span>
-</p>
-<div class="toolbar">
-<a class="pill-button" href="https://jp-gjn-2026-may.trekworks.org/" style="color: #93c5fd">
-      ← Back to Trip Home
-     </a>
-</div>
-</div>
-<!-- Osaka (Honshu) -->
-<section class="section">
-<div class="section-header">
-<div>
-<div class="section-title">
-       🏯 Osaka (Honshu)
-      </div>
-</div>
-</div>
-<div class="two-column">
-<div class="card">
-<div class="card-inner">
-<div class="card-header">
-<div>
-<div class="card-title" style="color:#93c5fd;">Suggested Activities</div>
-</div>
-</div>
-<div class="activity-meta-row">
-<div><span class="label">Dates:</span> <span class="meta-value">14 → 17 May</span></div>
-<div><span class="label">Base:</span> <span class="meta-value">Namba</span></div>
-<div><span class="label">Nights:</span> <span class="meta-value">3</span></div>
-</div>
-<ul class="planned-list">
-<li>
-<strong>
-          14 May (Thu)
-         </strong>
-         — Arrive 7:50 PM → Customs (~60 min) → Train 9:06 PM (37 min) → Walk (17 min) → Candeo Hotel Namba 10:00 PM.
-        </li>
-<li>
-<strong>
-          15 May (Fri)
-         </strong>
-         — Explore Dotonbori &amp;
-            Shinsaibashi, visit Osaka Castle, Kuromon Market food crawl.
-        </li>
-<li>
-<strong>
-          16 May (Sat)
-         </strong>
-         — Day trip to Kyoto: Fushimi Inari
-            Shrine &amp; Arashiyama Bamboo Grove. Return to Osaka in the
-            evening.
-        </li>
-<li>
-<strong>
-          17 May (Sun)
-         </strong>
-         — Depart 12:00 PM → Walk (18 min) → Train 12:30 PM (25 min) → Osaka (Itami) Airport 12:55 PM → Flight 2:50 PM.
-        </li>
-</ul>
-</div>
-</div>
-<details class="card">
-<summary class="card-inner">
-<div class="optional-label">
-        Optional activities
-       </div>
-<div class="optional-note">
-        Extra ideas near your Osaka bases if you have spare time or
-                reshuffle days.
-       </div>
-</summary>
-<div class="card-inner">
-<div class="card-header">
-<div>
-<div class="card-title">
-          Umeda Sky Building &amp; Kuchu Teien Observatory
-         </div>
-<div class="card-meta">
-          Evening city views over Osaka
-         </div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Best time:
-         </span>
-         Sunset → evening
-        </div>
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Area:
-         </span>
-         Umeda
-        </div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openModal('https://www.skybldg.co.jp/en/', 'Official site', 'https://www.skybldg.co.jp/en/', true); return false;">
-         Official site
-        </a>
-<a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Umeda%20Sky%20Building%20Kuchu%20Teien%20Observatory%20Osaka%20Japan&amp;output=embed', 'View Map'); return false;">
-         View Map
-        </a>
-<a class="link-pill" href="#" onclick="openLaunchModal('https://www.klook.com/en-US/activity/35861-umeda-sky-building-kuchu-teien-observatory-ticket/?source_channel=googlettd&amp;_language=en&amp;_currency=AUD&amp;_activity_id=35861&amp;package_id=110718', 'Umeda Sky Building Booking'); return false;">
-         Booking
-        </a>
-</div>
-<div class="divider">
-</div>
-<div class="card-header">
-<div>
-<div class="card-title">
-          Osaka Aquarium Kaiyukan
-         </div>
-<div class="card-meta">
-          One of Japan’s largest aquariums
-         </div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Best for:
-         </span>
-         Afternoon / wet-weather
-                  backup
-        </div>
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Area:
-         </span>
-         Tempozan Harbor Village
-        </div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openModal('https://www.kaiyukan.com/language/eng/', 'Official site', 'https://www.kaiyukan.com/language/eng/', true); return false;">
-         Official site
-        </a>
-<a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Osaka%20Aquarium%20Kaiyukan%20Osaka%20Japan&amp;output=embed', 'View Map'); return false;">
-         View Map
-        </a>
-<a class="link-pill" href="#" onclick="openModal('https://www.kaiyukan.com/info/ticket/kaiyukan/#', 'Booking', 'https://www.kaiyukan.com/info/ticket/kaiyukan/#', true); return false;">
-         Booking
-        </a>
-</div>
-<div class="divider">
-</div>
-<div class="card-header">
-<div>
-<div class="card-title">
-          Spa World &amp; Shinsekai Area
-         </div>
-<div class="card-meta">
-          Onsen theme park plus classic retro Osaka streets
-         </div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Best time:
-         </span>
-         Evening
-        </div>
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Note:
-         </span>
-         Good pairing with Kuromon /
-                  Dotonbori days
-        </div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openModal('https://www.spaworld.co.jp/english/', 'Official site', 'https://www.spaworld.co.jp/english/', true); return false;">
-         Official site
-        </a>
-<a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Spa%20World%20Shinsekai%20Osaka%20Japan&amp;output=embed', 'View Map'); return false;">
-         View Map
-        </a>
-<a class="link-pill" href="#" onclick="openModal('https://www.spaworld.co.jp/english/info/ryokin/', 'Booking', 'https://www.spaworld.co.jp/english/info/ryokin/', true); return false;">
-         Booking
-        </a>
-</div>
-</div>
-</details>
-</div>
-</section>
-<!-- Okinawa -->
-<section class="section">
-<div class="section-header">
-<div>
-<div class="section-title">
-       🏝️ Naha (Okinawa)
-      </div>
-</div>
-</div>
-<div class="two-column">
-<div class="card">
-<div class="card-inner">
-<div class="card-header">
-<div>
-<div class="card-title" style="color:#93c5fd;">Suggested Activities</div>
-</div>
-</div>
-<div class="activity-meta-row">
-<div><span class="label">Dates:</span> <span class="meta-value">17 → 22 May</span></div>
-<div><span class="label">Base:</span> <span class="meta-value">Yomitan</span></div>
-<div><span class="label">Nights:</span> <span class="meta-value">5</span></div>
-</div>
-<ul class="planned-list"><li><strong>17 May (Sun)</strong> — Arrive 5:00 PM → Hire Car → Hotel Nikko Alivila (70 mins)</li><li><strong>18 May (Mon)</strong> — Shuri Castle, Chura Sun Beach, Tsuboya Pottery Street.</li><li><strong>19 May (Tue)</strong> — Northern drive: Churaumi Aquarium, Cape Manzamo, Nago Pineapple Park.</li><li><strong>20 May (Wed)</strong> — Kerama Islands (Zamami / Tokashiki) for snorkelling &amp; island time.</li><li><strong>21 May (Thu)</strong> — Free day</li><li><strong>22 May (Fri)</strong> — Depart 9:30 AM → Hire Car → Naha Airport 10:40 AM (70 mins) → Flight 1:35 PM</li></ul>
-</div>
-</div>
-<details class="card">
-<summary class="card-inner">
-<div class="optional-label">
-        Optional activities
-       </div>
-<div class="optional-note">
-        Flexible add-ons based around your north-coast drive and free day.
-       </div>
-</summary>
-<div class="card-inner">
-<div class="card-header">
-<div>
-<div class="card-title">
-          Cape Zanpa &amp; Lighthouse
-         </div>
-<div class="card-meta">
-          Clifftop coastal views near Yomitan
-         </div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Best time:
-         </span>
-         Late afternoon → sunset
-        </div>
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Pair with:
-         </span>
-         Northern drive / Onna
-                  Beach day
-        </div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Cape%20Zanpa%20Lighthouse%20Yomitan%20Okinawa%20Japan&amp;output=embed', 'View Map'); return false;">
-         View Map
-        </a>
-<a class="link-pill" href="#" onclick="openLaunchModal('https://www.klook.com/en-US/activity/184264-okinawa-sunsettour-naminoue-shrine-american-village-illumination/', 'Cape Zanpa Booking'); return false;">
-         Booking
-        </a>
-</div>
-<div class="divider">
-</div>
-<div class="card-header">
-<div>
-<div class="card-title">
-          Blue Cave Snorkelling or Diving
-         </div>
-<div class="card-meta">
-          Popular marine experience close to Onna Village
-         </div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Best for:
-         </span>
-         Confident swimmers ·
-                  calm-sea days
-        </div>
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Note:
-         </span>
-         Advance booking recommended
-        </div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Blue%20Cave%20Onna%20Okinawa%20Japan&amp;output=embed', 'View Map'); return false;">
-         View Map
-        </a>
-<a class="link-pill" href="#" onclick="openLaunchModal('https://www.klook.com/en-US/activity/30585-blue-cave-snorkeling-diving-experience-okinawa/?spm=SearchResult.SearchResult_LIST&amp;clickId=7928709049', 'Blue Cave Booking'); return false;">
-         Booking
-        </a>
-</div>
-<div class="divider">
-</div>
-<div class="card-header">
-<div>
-<div class="card-title">
-          Senagajima Umikaji Terrace
-         </div>
-<div class="card-meta">
-          Cafés &amp; plane-spotting near Naha Airport
-         </div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Best time:
-         </span>
-         Late afternoon / early
-                  evening
-        </div>
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Idea:
-         </span>
-         Use on arrival or departure day
-                  if timing fits
-        </div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Senagajima%20Umikaji%20Terrace%20Okinawa%20Japan&amp;output=embed', 'View Map'); return false;">
-         View Map
-        </a>
-</div>
-<div class="divider"></div>
-<div class="card-header">
-<div>
-<div class="card-title">Limousine Bus → Hotel Nikko Alivila</div>
-<div class="card-meta">Airport transfer option before 5:40 PM arrival cutoff</div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;"><span class="label" style="color:#93c5fd;">Cost / time:</span> ¥730 · ~83 min</div>
-<div style="color:#f5f7ff;"><span class="label" style="color:#93c5fd;">Available:</span> 11:42 AM → 5:40 PM</div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openModal('https://jp-gjn-2026-may.trekworks.org/airport-limousine-bus.html', 'Airport Limousine Bus', 'https://jp-gjn-2026-may.trekworks.org/airport-limousine-bus.html', true); return false;">Airport Limousine Bus</a>
-</div>
-<div class="divider"></div>
-<div class="card-header">
-<div>
-<div class="card-title">Limousine Bus → Naha Airport</div>
-<div class="card-meta">Airport transfer option before 8:50 AM departure cutoff</div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;"><span class="label" style="color:#93c5fd;">Cost / time:</span> ¥730 · ~83 min</div>
-<div style="color:#f5f7ff;"><span class="label" style="color:#93c5fd;">Available:</span> 8:50 AM → 10:50 AM</div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openModal('https://jp-gjn-2026-may.trekworks.org/airport-limousine-bus.html', 'Airport Limousine Bus', 'https://jp-gjn-2026-may.trekworks.org/airport-limousine-bus.html', true); return false;">Airport Limousine Bus</a>
-</div>
-<div class="divider"></div>
-<div class="card-header">
-<div>
-<div class="card-title">Go Taxi → Hotel Nikko Alivila</div>
-<div class="card-meta">Direct airport transfer backup option</div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;"><span class="label" style="color:#93c5fd;">Estimated fare:</span> ¥11,500 · ~70 min</div>
-<div style="color:#f5f7ff;"><span class="label" style="color:#93c5fd;">Availability:</span> Anytime</div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openModal('https://go.goinc.jp/lp/inbound', 'Go Taxi', 'https://go.goinc.jp/lp/inbound', true); return false;">Go Taxi</a>
-</div>
-</div>
-</details>
-</div>
-</section>
-<!-- Fukuoka / Kyushu -->
-<section class="section">
-<div class="section-header">
-<div>
-<div class="section-title">
-       🎎 Fukuoka (Kyushu)
-      </div>
-</div>
-</div>
-<div class="two-column">
-<div class="card">
-<div class="card-inner">
-<div class="card-header">
-<div>
-<div class="card-title" style="color:#93c5fd;">Suggested Activities</div>
-</div>
-</div>
-<div class="activity-meta-row">
-<div><span class="label">Dates:</span> <span class="meta-value">22 → 27 May</span></div>
-<div><span class="label">Base:</span> <span class="meta-value">Fukuoka (Hakata Station and Nakasu)</span></div>
-<div><span class="label">Nights:</span> <span class="meta-value">5</span></div>
-</div>
-<ul class="planned-list">
-<li>
-<strong>
-          22 May (Fri)
-         </strong>
-         — Arrive 3:15 PM → Train 3:37 PM (5 min) → Train 3:50 PM (5 min) → Walk (3 min) → Hotel Monterey Fukuoka 4:00 PM.
-        </li>
-<li>
-<strong>
-          23 May (Sat)
-         </strong>
-         — Day trip to Nagasaki (~2 h 10 m each way): Peace Park, Dejima, Glover Garden, Mt Inasa sunset.
-        </li>
-<li>
-<strong>
-          24 May (Sun)
-         </strong>
-         — Dazaifu Tenmangu Shrine &amp; Ohori Park.
-        </li>
-<li>
-<strong>
-          25 May (Mon)
-         </strong>
-         — Day trip to Kumamoto (~45 min Shinkansen): Kumamoto Castle &amp; Suizenji Garden.
-        </li>
-<li>
-<strong>
-          26 May (Tue)
-         </strong>
-         — Free day
-        </li>
-<li>
-<strong>
-          27 May (Wed)
-         </strong>
-         — Depart 11:00 AM → Hakata Station → NOZOMI 28 Shinkansen 12:15 PM (¥43,780 ~2 h 30 m) → Shin-Osaka 2:43 PM.
-        </li>
-</ul>
-</div>
-</div>
-<details class="card">
-<summary class="card-inner">
-<div class="optional-label">
-        Optional activities
-       </div>
-<div class="optional-note">
-        Light extras if you adjust day trips or add time around Hakata /
-                Tenjin.
-       </div>
-</summary>
-<div class="card-inner">
-<div class="card-header">
-<div>
-<div class="card-title">
-          Canal City Hakata
-         </div>
-<div class="card-meta">
-          Shopping, dining &amp; light shows
-         </div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Best for:
-         </span>
-         Evenings or wet-weather
-                  backup
-        </div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Canal%20City%20Hakata%20Fukuoka%20Japan&amp;output=embed', 'View Map'); return false;">
-         View Map
-        </a>
-</div>
-<div class="divider">
-</div>
-<div class="card-header">
-<div>
-<div class="card-title">
-          Ohori Park Extras
-         </div>
-<div class="card-meta">
-          Rowboats, gardens &amp; Fukuoka Art Museum
-         </div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Pair with:
-         </span>
-         Dazaifu &amp; Ohori day
-        </div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Ohori%20Park%20Fukuoka%20Japan&amp;output=embed', 'View Map'); return false;">
-         View Map
-        </a>
-</div>
-<div class="divider">
-</div>
-<div class="card-header">
-<div>
-<div class="card-title">
-          Nakasu Kawabata Night Walk
-         </div>
-<div class="card-meta">
-          Riverside lights &amp; food streets
-         </div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Best time:
-         </span>
-         After dinner at Yatai or
-                  Canal City
-        </div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Nakasu%20Kawabata%20Fukuoka%20Japan&amp;output=embed', 'View Map'); return false;">
-         View Map
-        </a>
-<a class="link-pill" href="#" onclick="openLaunchModal('https://www.klook.com/en-US/activity/78047-fukuoka-night-tour-yatai-dinner/', 'Nakasu Kawabata Night Walk Booking'); return false;">
-         Booking
-        </a>
-</div>
-</div>
-</details>
-</div>
-</section>
-<!-- Osaka Return -->
-<section class="section">
-<div class="section-header">
-<div>
-<div class="section-title">
-       🏙 Osaka (Honshu)
-      </div>
-</div>
-</div>
-<div class="two-column">
-<div class="card">
-<div class="card-inner">
-<div class="card-header">
-<div>
-<div class="card-title" style="color:#93c5fd;">Suggested Activities</div>
-</div>
-</div>
-<div class="activity-meta-row">
-<div><span class="label">Dates:</span> <span class="meta-value">27 → 29 May</span></div>
-<div><span class="label">Base:</span> <span class="meta-value">Hommachi</span></div>
-<div><span class="label">Nights:</span> <span class="meta-value">3</span></div>
-</div>
-<ul class="planned-list">
-<li>
-<strong>
-          27 May (Wed)
-         </strong>
-         — Arrive 3:00 PM → Train 3:21 PM (12 min) → Train 3:39 PM (1 min) → Walk (5 min) → Miyako City Hommachi Hotel 3:45 PM.
-        </li>
-<li>
-<strong>
-          28 May (Thu)
-         </strong>
-         — Free morning for souvenirs, pack
-                  &amp; relax. Optional shopping in Shinsaibashi; food crawl in Dotonbori &amp; Kuromon Market.
-        </li>
-<li>
-<strong>
-          29 May (Fri)
-         </strong>
-         — Depart 3:00 PM → Walk → Train 3:06 PM → Osaka Umeda Bus 3:38 PM → Kansai Airport 4:50 PM → Flight 9:25 PM.
-        </li>
-</ul>
-</div>
-</div>
-<details class="card">
-<summary class="card-inner">
-<div class="optional-label">
-        Optional activities
-       </div>
-<div class="optional-note">
-        Extra ideas if you keep one more Osaka day or skip a side trip.
-       </div>
-</summary>
-<div class="card-inner">
-<div class="card-header">
-<div>
-<div class="card-title">
-          Kyoto Side Trip (Flexible)
-         </div>
-<div class="card-meta">
-          Return to favourite spots or explore a new district
-         </div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Ideas:
-         </span>
-         Philosopher’s Path, Nishiki
-                  Market, Gion backstreets
-        </div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Kyoto%20Station%20Kyoto%20Japan&amp;output=embed', 'Kyoto central map'); return false;">
-         Kyoto central map
-        </a>
-</div>
-<div class="divider">
-</div>
-<div class="card-header">
-<div>
-<div class="card-title">
-          Kobe Side Trip
-         </div>
-<div class="card-meta">
-          Harbourfront, Chinatown &amp; optional steak dinner
-         </div>
-</div>
-</div>
-<div class="meta-row">
-<div style="color:#f5f7ff;">
-<span class="label" style="color:#93c5fd;">
-          Travel:
-         </span>
-         ~30 min from Osaka by train
-        </div>
-</div>
-<div class="card-footer">
-<a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Kobe%20Sannomiya%20Station%20Kobe%20Japan&amp;output=embed', 'Kobe Sannomiya map'); return false;">
-         Kobe Sannomiya map
-        </a>
-</div>
-</div>
-</details>
-</div>
-</section>
-<div class="toolbar" style="justify-content:center; margin-top:32px;"><a class="pill-button" href="https://jp-gjn-2026-may.trekworks.org/" style="color:#93c5fd">← Back to Trip Home</a></div><footer>
-    For air travel, see
-    <a href="https://jp-gjn-2026-may.trekworks.org/flights.html">
-     Flights
-    </a>
-    .
-  For getting to and from the airport, use the
-    <a href="https://jp-gjn-2026-may.trekworks.org/airport-limousine-bus.html">
-     Airport Limousine Bus
-    </a>
-    .
-    <br class="desktop-only"/>
-    For Shinkansen travel between Osaka and Fukuoka, see the
-    <a href="https://jp-gjn-2026-may.trekworks.org/trains.html">
-     Train Guide
-    </a>
-    .
-  For overnight stays, go to
-    <a href="https://jp-gjn-2026-may.trekworks.org/accommodation.html">
-     Accommodation
-    </a>
-    .
-   </footer>
-</div>
+  </div>
 
+  <!-- ======================================================
+       DAY TRIPS
+       Source pages supplied by user. The visible summaries are
+       intentionally concise so the core information remains usable offline.
+       ====================================================== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-header-left"><span class="emoji">⛵</span> Day Trips</div>
+      <div class="section-header-meta">Options only · no bookings recorded yet</div>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">Ride &amp; Slide</div>
+          <div class="card-status">Not booked</div>
+        </div>
+        <div class="subtext">Half-day Mamanuca reef adventure with guided snorkelling, swim stops and the giant inflatable slide aboard South Sea Cats.</div>
+        <div class="meta-row">
+          <div><span class="meta-label">Provider:</span> South Sea Cruises Group</div>
+          <div><span class="meta-label">Base:</span> Port Denarau · best from Nadi</div>
+          <div><span class="meta-label">Duration:</span> up to 4.5 hours</div>
+        </div>
+        <div class="card-footer">
+          <a class="link-pill" href="#" onclick="openExternal('https://www.vitikart.com.fj/tour/1236-ride-slide','Ride & Slide — Booking / Details'); return false;">Book / Details</a>
+          <span class="pending-pill" title="Replace with the booking confirmation link or PDF once booked">Reservation</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">Malamala Beach Club · Full Day Pass</div>
+          <div class="card-status">Not booked</div>
+        </div>
+        <div class="subtext">Private-island beach club day with white-sand beach, infinity pool, snorkelling, kayaking and paddleboarding; Wailoaloa hotel pick-up is offered on the listed full-day service.</div>
+        <div class="meta-row">
+          <div><span class="meta-label">Provider:</span> South Sea Cruises Group</div>
+          <div><span class="meta-label">Base:</span> Port Denarau · best from Nadi</div>
+          <div><span class="meta-label">Duration:</span> about 7 hours</div>
+        </div>
+        <div class="card-footer">
+          <a class="link-pill" href="#" onclick="openExternal('https://www.vitikart.com.fj/tour/1236-malamala-beach-club-full-day-pass','Malamala Beach Club — Booking / Details'); return false;">Book / Details</a>
+          <span class="pending-pill" title="Replace with the booking confirmation link or PDF once booked">Reservation</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">Sabre Full Day Cruise by South Sea Sailing</div>
+          <div class="card-status">Not booked</div>
+        </div>
+        <div class="subtext">Full-day Mamanuca sailing trip with snorkelling and swimming stops, paddleboarding, lunch and relaxed onboard seating; itinerary varies with sea and weather conditions.</div>
+        <div class="meta-row">
+          <div><span class="meta-label">Provider:</span> South Sea Sailing / South Sea Cruises Group</div>
+          <div><span class="meta-label">Base:</span> Port Denarau · best from Nadi</div>
+          <div><span class="meta-label">Duration:</span> about 7 hours</div>
+        </div>
+        <div class="card-footer">
+          <a class="link-pill" href="#" onclick="openExternal('https://www.vitikart.com.fj/tour/1236-sabre-full-day-cruise-by-south-sea-sailing','Sabre Full Day Cruise — Booking / Details'); return false;">Book / Details</a>
+          <span class="pending-pill" title="Replace with the booking confirmation link or PDF once booked">Reservation</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">The Lailai Lounge</div>
+          <div class="card-status">Not booked</div>
+        </div>
+        <div class="subtext">All-inclusive Beqa Lagoon day from The Pearl Resort with floating lounge, guided snorkelling, kayaks, SUPs, water rides, lunch, soft drinks and a Bula kava session.</div>
+        <div class="meta-row">
+          <div><span class="meta-label">Provider:</span> Tropic Magic</div>
+          <div><span class="meta-label">Base:</span> The Pearl Resort · Pacific Harbour</div>
+          <div><span class="meta-label">Duration:</span> about 7 hours</div>
+        </div>
+        <div class="card-footer">
+          <a class="link-pill" href="#" onclick="openExternal('https://www.vitikart.com.fj/tour/1214-the-lailai-lounge','The Lailai Lounge — Booking / Details'); return false;">Book / Details</a>
+          <span class="pending-pill" title="Replace with the booking confirmation link or PDF once booked">Reservation</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">Sunset Cruise</div>
+          <div class="card-status">Not booked</div>
+        </div>
+        <div class="subtext">Short evening cruise from Pacific Harbour for sunset views along the coast with Beqa and nearby islands on the horizon.</div>
+        <div class="meta-row">
+          <div><span class="meta-label">Provider:</span> Tropic Magic</div>
+          <div><span class="meta-label">Base:</span> The Pearl Resort · Pacific Harbour</div>
+          <div><span class="meta-label">Duration:</span> about 1.5 hours</div>
+        </div>
+        <div class="card-footer">
+          <a class="link-pill" href="#" onclick="openExternal('https://www.vitikart.com.fj/tour/1214-sunset-cruise','Sunset Cruise — Booking / Details'); return false;">Book / Details</a>
+          <span class="pending-pill" title="Replace with the booking confirmation link or PDF once booked">Reservation</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ======================================================
+       NIGHTLIFE
+       The supplied JustLuxe guide is historical (2012). Only venues that
+       could still be verified as operating in 2026 are retained below.
+       ====================================================== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-header-left"><span class="emoji">🌙</span> Suva Nightlife</div>
+      <div class="section-header-meta">Current venues retained from the supplied guide</div>
+    </div>
+
+    <article class="card">
+      <div class="venue-list">
+        <div class="venue-row">
+          <div>
+            <div class="venue-name">O'Reilly's Bar Suva</div>
+            <div class="venue-note">Lively bar / nightclub with music, events and late-night atmosphere.</div>
+          </div>
+          <div><div class="venue-label">Area</div><div class="venue-value">MacArthur Street · Suva CBD</div></div>
+          <div><div class="venue-label">From Hotel</div><div class="venue-value">Short taxi / walk from Grand Pacific Hotel</div></div>
+          <div class="venue-actions">
+            <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=O%27Reilly%27s%20Bar%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;origin=Grand+Pacific+Hotel+Suva+Fiji&amp;destination=O%27Reilly%27s+Bar+Suva+Fiji&amp;travelmode=walking','O\'Reilly\'s Bar Suva'); return false;">Directions</a>
+          </div>
+        </div>
+
+        <div class="venue-row">
+          <div>
+            <div class="venue-name">Traps Bar</div>
+            <div class="venue-note">Long-running Suva bar with live music, pool table and a local / visitor crowd.</div>
+          </div>
+          <div><div class="venue-label">Area</div><div class="venue-value">305 Victoria Parade · Suva</div></div>
+          <div><div class="venue-label">From Hotel</div><div class="venue-value">Victoria Parade · easy taxi or walk</div></div>
+          <div class="venue-actions">
+            <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Traps%20Bar%20305%20Victoria%20Parade%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;origin=Grand+Pacific+Hotel+Suva+Fiji&amp;destination=Traps+Bar+305+Victoria+Parade+Suva+Fiji&amp;travelmode=walking','Traps Bar'); return false;">Directions</a>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="link-pill" href="#" onclick="openExternal('https://www.justluxe.com/community/unforgettable-fijian-night-spots-920011499/','Supplied Suva Nightlife Guide'); return false;">Source Guide</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- ======================================================
+       RESTAURANTS
+       Proximity is prioritised from the booked accommodation.
+       Google Maps directions use the relevant hotel as the origin.
+       ====================================================== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-header-left"><span class="emoji">🍽️</span> Restaurants &amp; Cafés</div>
+      <div class="section-header-meta">Close-to-hotel options first</div>
+    </div>
+
+    <article class="card location-card">
+      <div class="location-title-row">
+        <div class="location-title">Nadi · Wailoaloa</div>
+        <div class="location-base">From Ramada Suites Wailoaloa</div>
+      </div>
+      <div class="venue-list">
+        <div class="venue-row">
+          <div><div class="venue-name">Vasaqa Fiji Wailoaloa</div><div class="venue-note">Strong option for Fijian flavours and smoked meats.</div></div>
+          <div><div class="venue-label">Cuisine</div><div class="venue-value">Fijian fusion · seafood · BBQ</div></div>
+          <div><div class="venue-label">Proximity</div><div class="venue-value">Wailoaloa strip · short walk</div></div>
+          <div class="venue-actions">
+            <a class="link-pill" href="#" onclick="openExternal('https://www.vasaqa.com/','Vasaqa Fiji Wailoaloa — Reserve / Details'); return false;">Reserve / Details</a>
+            <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Vasaqa%20Fiji%20Wailoaloa%20Nadi%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;origin=Ramada+Suites+by+Wyndham+Wailoaloa+Beach+Fiji&amp;destination=Vasaqa+Fiji+Wailoaloa+Nadi+Fiji&amp;travelmode=walking','Vasaqa Fiji Wailoaloa'); return false;">Directions</a>
+            <span class="pending-pill" title="Replace with booking confirmation once reserved">Reservation</span>
+          </div>
+        </div>
+
+        <div class="venue-row">
+          <div><div class="venue-name">Urban Sugar Beach Club Fiji</div><div class="venue-note">Beachfront dining / drinks close to the hotel.</div></div>
+          <div><div class="venue-label">Cuisine</div><div class="venue-value">Bar · fusion</div></div>
+          <div><div class="venue-label">Proximity</div><div class="venue-value">≈ 0.2 km · about 3 min walk</div></div>
+          <div class="venue-actions">
+            <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Urban+Sugar+Beach+Club+Fiji+Nadi+reservations','Urban Sugar Beach Club — Reserve / Details'); return false;">Reserve / Details</a>
+            <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Urban%20Sugar%20Beach%20Club%20Fiji%20Nadi&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;origin=Ramada+Suites+by+Wyndham+Wailoaloa+Beach+Fiji&amp;destination=Urban+Sugar+Beach+Club+Fiji+Nadi&amp;travelmode=walking','Urban Sugar Beach Club Fiji'); return false;">Directions</a>
+            <span class="pending-pill" title="Replace with booking confirmation once reserved">Reservation</span>
+          </div>
+        </div>
+
+        <div class="venue-row">
+          <div><div class="venue-name">La Bottega Fiji</div><div class="venue-note">Dinner-focused Italian option at the Wailoaloa / Crowne Plaza precinct.</div></div>
+          <div><div class="venue-label">Cuisine</div><div class="venue-value">Italian · contemporary</div></div>
+          <div><div class="venue-label">Proximity</div><div class="venue-value">≈ 0.3 km · about 4–5 min walk</div></div>
+          <div class="venue-actions">
+            <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=La+Bottega+Fiji+Nadi+reservations','La Bottega Fiji — Reserve / Details'); return false;">Reserve / Details</a>
+            <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=La%20Bottega%20Fiji%20Wailoaloa%20Nadi&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;origin=Ramada+Suites+by+Wyndham+Wailoaloa+Beach+Fiji&amp;destination=La+Bottega+Fiji+Wailoaloa+Nadi&amp;travelmode=walking','La Bottega Fiji'); return false;">Directions</a>
+            <span class="pending-pill" title="Replace with booking confirmation once reserved">Reservation</span>
+          </div>
+        </div>
+
+        <div class="venue-row">
+          <div><div class="venue-name">The Beach Club Wailoaloa</div><div class="venue-note">Casual nearby option for an easy lunch, dinner or drink.</div></div>
+          <div><div class="venue-label">Cuisine</div><div class="venue-value">Bar &amp; grill · pizza</div></div>
+          <div><div class="venue-label">Proximity</div><div class="venue-value">Wasawasa Road · short walk</div></div>
+          <div class="venue-actions">
+            <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=The+Beach+Club+Wailoaloa+Nadi','The Beach Club Wailoaloa — Details'); return false;">Details</a>
+            <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=The%20Beach%20Club%20Wailoaloa%2019%20Wasawasa%20Road%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;origin=Ramada+Suites+by+Wyndham+Wailoaloa+Beach+Fiji&amp;destination=The+Beach+Club+Wailoaloa+Fiji&amp;travelmode=walking','The Beach Club Wailoaloa'); return false;">Directions</a>
+            <span class="pending-pill" title="Replace with booking confirmation once reserved">Reservation</span>
+          </div>
+        </div>
+
+        <div class="venue-row">
+          <div><div class="venue-name">Bean Bar Café</div><div class="venue-note">Convenient Wailoaloa coffee / light-meal option.</div></div>
+          <div><div class="venue-label">Cuisine</div><div class="venue-value">Café · coffee</div></div>
+          <div><div class="venue-label">Proximity</div><div class="venue-value">Wailoaloa Beach · short walk</div></div>
+          <div class="venue-actions">
+            <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Bean+Bar+Cafe+Wailoaloa+Nadi','Bean Bar Café — Details'); return false;">Details</a>
+            <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Bean%20Bar%20Cafe%20Wailoaloa%20Nadi&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;origin=Ramada+Suites+by+Wyndham+Wailoaloa+Beach+Fiji&amp;destination=Bean+Bar+Cafe+Wailoaloa+Nadi&amp;travelmode=walking','Bean Bar Café'); return false;">Directions</a>
+            <span class="pending-pill" title="Replace with booking confirmation once reserved">Reservation</span>
+          </div>
+        </div>
+      </div>
+      <div class="note-strip">Nadi choices are deliberately concentrated around Wailoaloa. Use <strong>Directions</strong> for the current walking route; the hire car makes Port Denarau, Nadi Town and Vuda options easy if you want to go further.</div>
+    </article>
+
+    <article class="card location-card">
+      <div class="location-title-row">
+        <div class="location-title">Suva</div>
+        <div class="location-base">From Grand Pacific Hotel</div>
+      </div>
+      <div class="venue-list">
+        <div class="venue-row">
+          <div><div class="venue-name">Prince Albert Restaurant &amp; Terrace</div><div class="venue-note">Signature fine-dining option inside the Grand Pacific Hotel.</div></div>
+          <div><div class="venue-label">Cuisine</div><div class="venue-value">Polynesian · fine dining</div></div>
+          <div><div class="venue-label">Proximity</div><div class="venue-value">In hotel · no travel required</div></div>
+          <div class="venue-actions">
+            <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Prince+Albert+Restaurant+Grand+Pacific+Hotel+Suva+reservations','Prince Albert Restaurant — Reserve / Details'); return false;">Reserve / Details</a>
+            <span class="pending-pill" title="Replace with booking confirmation once reserved">Reservation</span>
+          </div>
+        </div>
+
+        <div class="venue-row">
+          <div><div class="venue-name">Levuka Restaurant</div><div class="venue-note">Casual hotel dining option at the Grand Pacific Hotel.</div></div>
+          <div><div class="venue-label">Cuisine</div><div class="venue-value">Polynesian · family restaurant</div></div>
+          <div><div class="venue-label">Proximity</div><div class="venue-value">In hotel · no travel required</div></div>
+          <div class="venue-actions">
+            <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Levuka+Restaurant+Grand+Pacific+Hotel+Suva+reservations','Levuka Restaurant — Reserve / Details'); return false;">Reserve / Details</a>
+            <span class="pending-pill" title="Replace with booking confirmation once reserved">Reservation</span>
+          </div>
+        </div>
+
+        <div class="venue-row">
+          <div><div class="venue-name">Daikoku Suva</div><div class="venue-note">Very close Japanese / teppanyaki option on Victoria Parade.</div></div>
+          <div><div class="venue-label">Cuisine</div><div class="venue-value">Japanese · sushi · teppanyaki</div></div>
+          <div><div class="venue-label">Proximity</div><div class="venue-value">≈ 0.1 km · about 1–2 min walk</div></div>
+          <div class="venue-actions">
+            <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Daikoku+Suva+reservations','Daikoku Suva — Reserve / Details'); return false;">Reserve / Details</a>
+            <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Daikoku%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;origin=Grand+Pacific+Hotel+Suva+Fiji&amp;destination=Daikoku+Suva+Fiji&amp;travelmode=walking','Daikoku Suva'); return false;">Directions</a>
+            <span class="pending-pill" title="Replace with booking confirmation once reserved">Reservation</span>
+          </div>
+        </div>
+
+        <div class="venue-row">
+          <div><div class="venue-name">Paradiso Restaurant &amp; Bar</div><div class="venue-note">Albert Park setting with wood-fired pizza, pasta, Fijian fusion and a relaxed bar.</div></div>
+          <div><div class="venue-label">Cuisine</div><div class="venue-value">Italian · pizza · Fijian fusion</div></div>
+          <div><div class="venue-label">Proximity</div><div class="venue-value">≈ 0.3 km · about 4 min walk</div></div>
+          <div class="venue-actions">
+            <a class="link-pill" href="#" onclick="openExternal('https://paradiso.com.fj/','Paradiso Restaurant & Bar — Reserve / Details'); return false;">Reserve / Details</a>
+            <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Paradiso%20Restaurant%20and%20Bar%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;origin=Grand+Pacific+Hotel+Suva+Fiji&amp;destination=Paradiso+Restaurant+and+Bar+Suva+Fiji&amp;travelmode=walking','Paradiso Restaurant & Bar'); return false;">Directions</a>
+            <span class="pending-pill" title="Replace with booking confirmation once reserved">Reservation</span>
+          </div>
+        </div>
+
+        <div class="venue-row">
+          <div><div class="venue-name">Ginger Kitchen</div><div class="venue-note">Easy daytime café stop in the Fiji Museum / Thurston Gardens precinct.</div></div>
+          <div><div class="venue-label">Cuisine</div><div class="venue-value">Café · coffee · light meals</div></div>
+          <div><div class="venue-label">Proximity</div><div class="venue-value">Fiji Museum precinct · short walk</div></div>
+          <div class="venue-actions">
+            <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Ginger+Kitchen+Fiji+Museum+Suva','Ginger Kitchen — Details'); return false;">Details</a>
+            <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Ginger%20Kitchen%202%20Cakobau%20Road%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;origin=Grand+Pacific+Hotel+Suva+Fiji&amp;destination=Ginger+Kitchen+2+Cakobau+Road+Suva+Fiji&amp;travelmode=walking','Ginger Kitchen'); return false;">Directions</a>
+            <span class="pending-pill" title="Replace with booking confirmation once reserved">Reservation</span>
+          </div>
+        </div>
+
+        <div class="venue-row">
+          <div><div class="venue-name">Tiko's Floating Restaurant</div><div class="venue-note">Suva waterfront seafood option included as a worthwhile short-drive choice.</div></div>
+          <div><div class="venue-label">Cuisine</div><div class="venue-value">Seafood · Pacific Rim</div></div>
+          <div><div class="venue-label">Proximity</div><div class="venue-value">≈ 0.8 km · quick drive / longer walk</div></div>
+          <div class="venue-actions">
+            <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Tiko%27s+Floating+Restaurant+Suva+reservations','Tiko\'s Floating Restaurant — Reserve / Details'); return false;">Reserve / Details</a>
+            <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Tiko%27s%20Floating%20Restaurant%20Stinson%20Parade%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;origin=Grand+Pacific+Hotel+Suva+Fiji&amp;destination=Tiko%27s+Floating+Restaurant+Suva+Fiji&amp;travelmode=driving','Tiko\'s Floating Restaurant'); return false;">Directions</a>
+            <span class="pending-pill" title="Replace with booking confirmation once reserved">Reservation</span>
+          </div>
+        </div>
+      </div>
+      <div class="note-strip">Suva is especially convenient from the Grand Pacific Hotel: the hotel restaurants, Daikoku, Paradiso and the Fiji Museum precinct are the easiest choices on foot.</div>
+    </article>
+  </section>
+
+  <div class="toolbar" style="justify-content:center; margin: 28px 0 0;">
+    <a class="pill-button" href="https://fj-gjn-2026-aug.trekworks.org/">← Back to Trip Home</a>
+  </div>
+
+  <footer class="footer-nav">
+    <div class="footer-line desktop-only">
+      For accommodation, see <a href="https://fj-gjn-2026-aug.trekworks.org/fj-gjn-2026-aug-accommodation.html">Accommodation</a>.
+      For flights, see <a href="https://fj-gjn-2026-aug.trekworks.org/fj-gjn-2026-aug-flights.html">Flights</a>.
+      For hire car and transport, see <a href="https://fj-gjn-2026-aug.trekworks.org/fj-gjn-2026-aug-hire-car.html">Hire Car</a>.
+      For trip tasks, see <a href="https://fj-gjn-2026-aug.trekworks.org/fj-gjn-2026-aug-task-list-guide.html">Task List</a>.
+    </div>
+    <div class="footer-line mobile-only">
+      See <a href="https://fj-gjn-2026-aug.trekworks.org/fj-gjn-2026-aug-accommodation.html">Accommodation</a>,
+      <a href="https://fj-gjn-2026-aug.trekworks.org/fj-gjn-2026-aug-flights.html">Flights</a>,
+      <a href="https://fj-gjn-2026-aug.trekworks.org/fj-gjn-2026-aug-hire-car.html">Hire Car</a>
+      and <a href="https://fj-gjn-2026-aug.trekworks.org/fj-gjn-2026-aug-task-list-guide.html">Task List</a>.
+    </div>
+  </footer>
+</main>
 
 <div class="map-modal" id="mapModal">
-<div class="map-modal-header">
-<div class="map-modal-title" id="mapModalTitle">Map</div>
-<button class="map-modal-close" onclick="closeMapModal()">X Close</button>
+  <div class="map-modal-header">
+    <div class="map-modal-title" id="mapModalTitle">Map</div>
+    <div class="map-modal-actions">
+      <a class="map-open-link" href="#" id="mapOpenLink" rel="noopener" target="_blank">Open in Maps ↗</a>
+      <button class="map-modal-close" type="button" onclick="closeMapModal()">X Close</button>
+    </div>
+  </div>
+  <iframe id="mapFrame" loading="lazy" src=""></iframe>
 </div>
-<iframe id="mapFrame" loading="lazy" src=""></iframe>
+
+<div class="website-browser-modal" id="websiteBrowserModal" role="dialog" aria-modal="true" aria-label="External link">
+  <div class="website-browser-modal-header">
+    <div class="website-browser-modal-title" id="websiteBrowserTitle">External Link</div>
+    <button class="website-browser-modal-close" type="button" onclick="closeWebsiteBrowser()">X Close</button>
+  </div>
+  <iframe id="websiteBrowserFrame" loading="lazy" src="" title="External content"></iframe>
 </div>
-<div aria-label="Site preview" aria-modal="true" class="modal-overlay" id="modalOverlay" role="dialog">
-<div class="modal-shell">
-<div class="modal-header">
-<div class="modal-title" id="modalTitle">Loading…</div>
-<a class="modal-open" href="#" id="modalOpen" rel="noopener" target="_blank">Open</a>
-<button aria-label="Close" class="modal-close" onclick="closeModal()">X Close</button>
-</div>
-<iframe class="modal-frame" id="modalFrame" title="External content"></iframe>
-<div class="modal-launch" id="modalLaunch">
-<div class="launch-card">
-<h2 id="launchTitle">Open site</h2>
-<p>This site may block embedded views. Use the button below if the page does not load inside the trip card.</p>
-<a href="#" id="launchLink" rel="noopener" target="_blank">Open in new tab</a>
-</div>
-</div>
-</div>
-</div>
+
 <div class="offline-overlay" id="offlineOverlay">
-<div class="offline-box">
-<h2>
-     You’re offline
-    </h2>
-<p>
-     This content requires an internet connection.
-     <br/>
-     You can continue using other parts of the app while offline.
-    </p>
-<button onclick="closeOffline()">
-     OK
-    </button>
-</div>
+  <div class="offline-box">
+    <h2>You’re offline</h2>
+    <p>This content requires an internet connection.<br/>You can continue using the trip reference information while offline.</p>
+    <button type="button" onclick="closeOffline()">OK</button>
+  </div>
 </div>
 
 <script>
-function openMapModal(url, title) {
+function openMapModal(url, externalUrl, title) {
   verifyConnectivity()
     .then(function () {
       document.getElementById('mapModalTitle').textContent = title || 'Map';
+      document.getElementById('mapOpenLink').href = externalUrl || url;
       document.getElementById('mapFrame').src = url;
       document.getElementById('mapModal').style.display = 'flex';
       document.body.style.overflow = 'hidden';
@@ -1347,94 +741,51 @@ function openMapModal(url, title) {
 
 function closeMapModal() {
   document.getElementById('mapFrame').src = '';
+  document.getElementById('mapOpenLink').href = '#';
   document.getElementById('mapModal').style.display = 'none';
   document.body.style.overflow = '';
 }
 
-function openLaunchModal(url, title) {
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function buildExternalLaunchCard(title, url) {
+  const safeTitle = escapeHtml(title || 'Open external link');
+  const safeUrl = escapeHtml(url || '');
+
+  return `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(rgba(235,250,253,.76),rgba(244,252,253,.93) 42%,rgba(244,252,253,.98)),url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top/cover fixed;color:#15365f;display:flex;align-items:center;justify-content:center;padding:18px}.launch-card{width:min(560px,100%);background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.99));border:1px solid rgba(8,145,178,.16);border-radius:22px;box-shadow:0 20px 40px rgba(15,118,110,.18);padding:22px;text-align:center}h1{margin:0 0 10px;font-size:20px;line-height:1.25;color:#15365f}p{margin:0 0 16px;color:#49657f;font-size:14px;line-height:1.45}.url{margin:0 0 16px;padding:10px 12px;border:1px solid rgba(8,145,178,.12);border-radius:14px;background:rgba(238,251,255,.72);color:#49657f;font-size:12px;overflow-wrap:anywhere;text-align:left}a{display:inline-flex;justify-content:center;align-items:center;width:100%;border-radius:999px;border:1px solid transparent;background:linear-gradient(135deg,#0ea5b7,#0284c7);color:#fff;padding:11px 14px;text-decoration:none;font-size:14px;font-weight:700}
+</style></head><body><div class="launch-card"><h1>${safeTitle}</h1><p>Open this page directly in your browser for booking, reservations or current venue information, then return to the trip app when finished.</p><div class="url">${safeUrl}</div><a href="${safeUrl}" target="_blank" rel="noopener">Open in Browser</a></div></body></html>`;
+}
+
+function openExternal(url, title) {
   verifyConnectivity()
     .then(function () {
-      const overlay = document.getElementById('modalOverlay');
-      const frame = document.getElementById('modalFrame');
-      const modalTitle = document.getElementById('modalTitle');
-      const openLink = document.getElementById('modalOpen');
-      const launch = document.getElementById('modalLaunch');
-      const launchTitle = document.getElementById('launchTitle');
-      const launchLink = document.getElementById('launchLink');
-
-      modalTitle.textContent = title || 'Open booking';
-      openLink.href = url;
-      launchTitle.textContent = title || 'Open booking';
-      launchLink.href = url;
-      launchLink.textContent = 'Open booking site';
-
+      const frame = document.getElementById('websiteBrowserFrame');
+      document.getElementById('websiteBrowserTitle').textContent = title || 'External Link';
       frame.removeAttribute('src');
-      frame.style.display = 'none';
-      launch.style.display = 'flex';
-      overlay.style.display = 'flex';
+      frame.srcdoc = buildExternalLaunchCard(title, url);
+      document.getElementById('websiteBrowserModal').style.display = 'flex';
       document.body.style.overflow = 'hidden';
     })
     .catch(showOffline);
 }
 
-function openModal(url, title, externalUrl, launchMode) {
-  verifyConnectivity()
-    .then(function () {
-      const overlay = document.getElementById('modalOverlay');
-      const frame = document.getElementById('modalFrame');
-      const modalTitle = document.getElementById('modalTitle');
-      const openLink = document.getElementById('modalOpen');
-      const targetUrl = externalUrl || url;
-
-      modalTitle.textContent = title || 'Preview';
-      openLink.href = targetUrl;
-
-      const launch = document.getElementById('modalLaunch');
-      launch.style.display = 'none';
-      frame.style.display = 'block';
-
-      if (launchMode) {
-        frame.src = 'external.html?url=' + encodeURIComponent(targetUrl);
-      } else {
-        frame.src = url;
-      }
-
-      overlay.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    })
-    .catch(showOffline);
-}
-
-function closeModal() {
-  const overlay = document.getElementById('modalOverlay');
-  const frame = document.getElementById('modalFrame');
-  const launch = document.getElementById('modalLaunch');
-  overlay.style.display = 'none';
+function closeWebsiteBrowser() {
+  const frame = document.getElementById('websiteBrowserFrame');
   frame.removeAttribute('src');
-  frame.style.display = 'block';
-  launch.style.display = 'none';
+  frame.removeAttribute('srcdoc');
+  document.getElementById('websiteBrowserModal').style.display = 'none';
   document.body.style.overflow = '';
 }
-
-document.addEventListener('keydown', function (event) {
-  if (event.key === 'Escape') {
-    closeMapModal();
-    closeModal();
-    closeOffline();
-  }
-});
-
-document.getElementById('modalOverlay').addEventListener('click', function (event) {
-  if (event.target.id === 'modalOverlay') {
-    closeModal();
-  }
-});
-
-document.getElementById('mapModal').addEventListener('click', function (event) {
-  if (event.target.id === 'mapModal') {
-    closeMapModal();
-  }
-});
 
 function verifyConnectivity() {
   return new Promise(function (resolve, reject) {
@@ -1449,7 +800,7 @@ function verifyConnectivity() {
       reject();
     }, 800);
 
-    fetch('external.html', {
+    fetch('fj-gjn-2026-aug-external.html', {
       cache: 'no-store',
       signal: controller.signal
     })
@@ -1470,18 +821,38 @@ function verifyConnectivity() {
 
 function showOffline() {
   document.getElementById('offlineOverlay').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
 }
 
 function closeOffline() {
   document.getElementById('offlineOverlay').style.display = 'none';
+  document.body.style.overflow = '';
 }
 
-// Prevent href="#" pills from jumping to the top if an offline check or modal launch fails.
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape') {
+    closeMapModal();
+    closeWebsiteBrowser();
+    closeOffline();
+  }
+});
+
+document.getElementById('mapModal').addEventListener('click', function (event) {
+  if (event.target.id === 'mapModal') closeMapModal();
+});
+
+document.getElementById('websiteBrowserModal').addEventListener('click', function (event) {
+  if (event.target.id === 'websiteBrowserModal') closeWebsiteBrowser();
+});
+
+document.getElementById('offlineOverlay').addEventListener('click', function (event) {
+  if (event.target.id === 'offlineOverlay') closeOffline();
+});
+
 document.addEventListener('click', function (event) {
   const hashPill = event.target.closest && event.target.closest('a[href="#"]');
-  if (hashPill) {
-    event.preventDefault();
-  }
+  if (hashPill) event.preventDefault();
 }, true);
-</script></body>
+</script>
+</body>
 </html>

@@ -91,6 +91,18 @@ details[open] summary::before { transform: rotate(90deg); }
 .bottom-home { display: flex; justify-content: center; margin: 38px 0 0; }
 footer { margin-top: 32px; text-align: center; font-size: 12px; color: #49657f; line-height: 1.45; }
 footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
+.booking-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0;
+}
+.booking-summary-item {
+  min-width: 0;
+  padding-right: 10px;
+}
+.booking-summary-item:last-child { padding-right: 0; }
+.booking-summary-item .meta-key,
+.booking-summary-item .meta-value { overflow-wrap: anywhere; }
 .desktop-only { display: inline; }
 .mobile-only { display: none; }
 .map-modal, .modal-overlay, .offline-overlay { position: fixed; inset: 0; background: rgba(21,54,95,.34); backdrop-filter: blur(10px); display: none; z-index: 9998; }
@@ -108,6 +120,27 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
 .offline-box button { padding: 8px 16px; font-size: 14px; color: #0891b2; }
 @media (max-width: 640px) {
   .desktop-only { display: none; }
+  .booking-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .booking-summary-item {
+    min-width: 0;
+    padding: 10px 11px;
+    border: 1px solid rgba(8,145,178,.12);
+    background: rgba(238,251,255,.72);
+    border-radius: 14px;
+  }
+  .booking-summary-price,
+  .booking-summary-idp { grid-column: 1 / -1; }
+  .booking-summary-item .meta-key {
+    font-size: 10px;
+    letter-spacing: .06em;
+  }
+  .booking-summary-item .meta-value {
+    font-size: 13px;
+    line-height: 1.4;
+  }
   .mobile-only { display: inline; }
   .subtitle { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
   .meta-grid { grid-template-columns: 1fr; }
@@ -136,13 +169,13 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
 
       
 <article class="card">
-<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;border-collapse:collapse">
-<div><div class="meta-key">📅 Pickup</div><div class="meta-value"><strong>4 Aug 2026</strong><br>3:00 PM<br>Nadi Airport<br>Rear of Terminal<br>(Smoking Zone C)</div></div>
-<div><div class="meta-key">📅 Drop-off</div><div class="meta-value"><strong>11 Aug 2026</strong><br>3:00 PM<br>Nadi Airport</div></div>
-<div><div class="meta-key">🚗 Vehicle</div><div class="meta-value"><strong>Toyota Roomy</strong><br>or similar<br>Compact • Automatic<br>Seats: 5 • Bags: 2</div></div>
-<div><div class="meta-key">📋 Booking</div><div class="meta-value"><strong>B81946985</strong><br>Supplier<br>N.C.H Rentals</div></div>
-<div><div class="meta-key">💲 Price</div><div class="meta-value"><strong>Total</strong> AUD $472.80<br>Paid AUD $135.73<br>Due AUD $337.07<br>Due FJD $530.00 (approx)</div></div>
-<div><div class="meta-key">🪪 IDP</div><div class="meta-value"><strong>International<br>Drivers Permit</strong><br>Carry with you</div></div>
+<div class="booking-summary-grid">
+<div class="booking-summary-item"><div class="meta-key">📅 Pickup</div><div class="meta-value"><strong>4 Aug 2026</strong><br>3:00 PM<br>Nadi Airport<br>Rear of Terminal<br>(Smoking Zone C)</div></div>
+<div class="booking-summary-item"><div class="meta-key">📅 Drop-off</div><div class="meta-value"><strong>11 Aug 2026</strong><br>3:00 PM<br>Nadi Airport</div></div>
+<div class="booking-summary-item"><div class="meta-key">🚗 Vehicle</div><div class="meta-value"><strong>Toyota Roomy</strong><br>or similar<br>Compact • Automatic<br>Seats: 5 • Bags: 2</div></div>
+<div class="booking-summary-item"><div class="meta-key">📋 Booking</div><div class="meta-value"><strong>B81946985</strong><br>Supplier<br>N.C.H Rentals</div></div>
+<div class="booking-summary-item booking-summary-price"><div class="meta-key">💲 Price</div><div class="meta-value"><strong>Total</strong> AUD $472.80<br>Paid AUD $135.73<br>Due AUD $337.07<br>Due FJD $530.00 (approx)</div></div>
+<div class="booking-summary-item booking-summary-idp"><div class="meta-key">🪪 IDP</div><div class="meta-value"><strong>International Drivers Permit</strong><br>Carry with you</div></div>
 </div>
 </article>
 

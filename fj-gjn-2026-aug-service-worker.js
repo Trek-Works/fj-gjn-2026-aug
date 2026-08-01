@@ -4,7 +4,9 @@
 // Scope: subdomain root (./)
 // =====================================================
 
-const CACHE_VERSION = "tw-fj-gjn-2026-aug-2026-06-28-manifest-credentials-v3";
+// Cache version updated 2 Aug 2026 to replace the former
+// task-list-guide filename with the current task-list filename.
+const CACHE_VERSION = "tw-fj-gjn-2026-aug-2026-08-02-task-list-fix-v4";
 const CACHE_NAME = `trekworks-${CACHE_VERSION}`;
 
 // -----------------------------------------------------
@@ -61,7 +63,7 @@ const CORE_ASSETS = [
   "./fj-gjn-2026-aug-guides.html",
   "./fj-gjn-2026-aug-hire-car.html",
   "./fj-gjn-2026-aug-insurance.html",
-  "./fj-gjn-2026-aug-task-list-guide.html",
+  "./fj-gjn-2026-aug-task-list.html",
 
   "./fj-gjn-2026-aug-external.html",
 
@@ -69,6 +71,8 @@ const CORE_ASSETS = [
   "./assets/icons/icon-FJ-2026-512.png",
   "./assets/audio/fiji-theme.mp3"
 ];
+
+const TASK_LIST_CANONICAL = "./fj-gjn-2026-aug-task-list.html";
 
 // -----------------------------------------------------
 // Install
@@ -82,7 +86,9 @@ self.addEventListener("install", (event) => {
         CORE_ASSETS.map(async (asset) => {
           const req = new Request(asset, { cache: "reload" });
           const res = await fetch(req);
-          if (!res || !res.ok) throw new Error(`Precache failed: ${asset} (${res && res.status})`);
+          if (!res || !res.ok) {
+            throw new Error(`Precache failed: ${asset} (${res && res.status})`);
+          }
           await cache.put(req, res);
         })
       );
@@ -128,24 +134,41 @@ async function handleNavigation(request) {
     url.pathname.endsWith("/fj-gjn-2026-aug-external.html") ||
     url.pathname === "/fj-gjn-2026-aug-external.html";
 
+  const isTaskListRequest =
+    url.pathname.endsWith("/fj-gjn-2026-aug-task-list.html") ||
+    url.pathname.endsWith("/fj-gjn-2026-aug-task-list-guide.html");
+
   const isTripDocument =
     request.destination === "document" && !isExternalRouter;
 
   const canonicalExternalRequest = new Request("./fj-gjn-2026-aug-external.html");
+  const canonicalTaskListRequest = new Request(TASK_LIST_CANONICAL);
   const tripMode = await getTripMode();
+
+  async function matchTripDocument() {
+    // Support both the current Task List filename and any retained legacy links.
+    if (isTaskListRequest) {
+      const taskListResponse = await cache.match(canonicalTaskListRequest, {
+        ignoreSearch: true
+      });
+      if (taskListResponse) return taskListResponse;
+    }
+
+    return cache.match(request, { ignoreSearch: true });
+  }
 
   // ================= OFFLINE =================
   if (tripMode === "offline") {
     if (isExternalRouter) {
       return (
-        (await cache.match(canonicalExternalRequest)) ||
+        (await cache.match(canonicalExternalRequest, { ignoreSearch: true })) ||
         (await cache.match("./fj-gjn-2026-aug-offline.html"))
       );
     }
 
     if (isTripDocument) {
       return (
-        (await cache.match(request)) ||
+        (await matchTripDocument()) ||
         (await cache.match("./index.html")) ||
         (await cache.match("./fj-gjn-2026-aug-offline.html"))
       );
@@ -158,16 +181,19 @@ async function handleNavigation(request) {
 
     if (response && response.ok) {
       if (isExternalRouter) {
-        cache.put(canonicalExternalRequest, response.clone());
+        await cache.put(canonicalExternalRequest, response.clone());
+      } else if (isTaskListRequest) {
+        // Always store the Task List under its current canonical filename.
+        await cache.put(canonicalTaskListRequest, response.clone());
       } else {
-        cache.put(request, response.clone());
+        await cache.put(request, response.clone());
       }
     }
 
     return response;
   } catch {
     return (
-      (await cache.match(request)) ||
+      (await matchTripDocument()) ||
       (await cache.match("./index.html")) ||
       (await cache.match("./fj-gjn-2026-aug-offline.html"))
     );

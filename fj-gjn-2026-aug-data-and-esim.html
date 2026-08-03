@@ -64,7 +64,7 @@ body {
 .label-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .ref { font-size: 12px; color: #0891b2; font-weight: 800; white-space: nowrap; }
 .subtext { font-size: 13px; color: #49657f; margin-top: 5px; line-height: 1.45; }
-.plan-grid { display: grid; grid-template-columns: minmax(145px,.9fr) minmax(125px,.75fr) minmax(270px,1.55fr) minmax(165px,1fr); gap: 0; margin-top: 15px; }
+.plan-grid { display: grid; grid-template-columns: minmax(220px,1fr) minmax(330px,1.45fr); gap: 0; margin-top: 15px; }
 .plan-item { padding: 0 18px 0 0; }
 .plan-item + .plan-item { border-left: 1px solid rgba(8,145,178,.14); padding-left: 18px; }
 .meta-key { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #0891b2; margin-bottom: 4px; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
@@ -72,6 +72,15 @@ body {
 .meta-value a { color: #0891b2; text-decoration: none; font-weight: 700; }
 .meta-value a:hover { text-decoration: underline; }
 .card-footer { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+.esim-pill-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin-top: 15px; }
+.esim-pill { min-width: 0; padding: 12px 14px; border-radius: 16px; border: 1px solid rgba(8,145,178,.18); background: rgba(238,251,255,.72); color: #15365f; text-decoration: none; box-shadow: 0 7px 18px rgba(8,145,178,.08); display: flex; align-items: center; justify-content: space-between; gap: 12px; transition: background .18s ease,border-color .18s ease,transform .18s ease; }
+.esim-pill:hover { background: rgba(255,255,255,.98); border-color: rgba(8,145,178,.38); transform: translateY(-1px); }
+.esim-details { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.esim-name { font-size: 14px; font-weight: 800; color: #15365f; }
+.esim-number { font-size: 13px; color: #49657f; white-space: nowrap; }
+.esim-action { flex: 0 0 auto; font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #0891b2; white-space: nowrap; }
+.setup-footer { padding-top: 2px; }
+.setup-footer .link-pill { padding: 8px 14px; }
 .link-pill { padding: 6px 12px; font-size: 12px; font-weight: 700; color: #0891b2; white-space: nowrap; flex: 0 0 auto; }
 .link-pill:hover, .pill-button:hover { background: rgba(255,255,255,.96); border-color: rgba(8,145,178,.38); }
 .alert-pill { color: #9a6700; border-color: rgba(217,119,6,.35); background: rgba(254,243,199,.86); }
@@ -93,16 +102,17 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
 .offline-box p { margin: 0 0 16px; font-size: 14px; color: #49657f; line-height: 1.4; }
 .offline-box button { padding: 8px 16px; font-size: 14px; color: #0891b2; }
 @media (max-width: 900px) {
-  .plan-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 0; }
-  .plan-item:nth-child(odd) { border-left: 0; padding-left: 0; }
+  .esim-pill-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
   .desktop-only { display: none; }
   .mobile-only { display: inline; }
   .subtitle { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
   .label-row { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .plan-grid { grid-template-columns: 1fr; gap: 10px; }
+  .plan-grid { grid-template-columns: 1fr; gap: 12px; }
   .plan-item, .plan-item + .plan-item { border-left: 0; padding-left: 0; padding-right: 0; }
+  .plan-item + .plan-item { padding-top: 12px; border-top: 1px solid rgba(8,145,178,.12); }
+  .esim-pill { align-items: flex-start; }
   .card-footer { flex-wrap: wrap; gap: 6px; }
   .card-footer .link-pill { flex: 1 1 calc(50% - 6px); text-align: center; }
   footer { line-height: 1.8; }
@@ -115,7 +125,7 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
     <div class="breadcrumb">FJ-GJN-2026-Aug · Fiji Trip</div>
     <h1 class="title">Data &amp; eSIM</h1>
     <p class="subtitle">
-      <span>Vodafone Fiji tourist data quick reference</span>
+      <span>Vodafone Fiji eSIM numbers, installation and account access</span>
       <span>(4 Aug 2026 → 11 Aug 2026)</span>
     </p>
     <div class="toolbar">
@@ -130,16 +140,35 @@ footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
       <div class="label-row">
         <div class="label">Vodafone Fiji Tourist eSIM</div>
       </div>
-      <div class="subtext">Buy or activate after arrival in Fiji. Keep this page as a simple reference for plan selection, setup and the Vodafone Fiji account portal.</div>
+      <div class="subtext">The traveller eSIMs have been issued. Use this page for the shared plan details, Vodafone support and account access.</div>
       <div class="plan-grid">
-        <div class="plan-item"><div class="meta-key">⭐ Plan</div><div class="meta-value"><strong>$35 Bula Pack</strong><br>50GB data<br>10 day plan</div></div>
-        <div class="plan-item"><div class="meta-key">💲 Price</div><div class="meta-value">FJD $35<br>$10 purchased credit</div></div>
-        <div class="plan-item"><div class="meta-key">☎️ Support</div><div class="meta-value"><a href="#" onclick="openExternalLaunch('https://esim.vodafone.com.fj/support?tab=call-support', 'Vodafone Fiji eSIM Support', 'Open Call Support'); return false;">Call Support</a><br><strong>+679 9902 123</strong><br>7 days a week · 9 AM–9 PM Fiji Time</div></div>
-        <div class="plan-item"><div class="meta-key">🗓️ Validity</div><div class="meta-value">Plan valid 10 days<br>SIM valid 90 days</div></div>
+        <div class="plan-item"><div class="meta-key">⭐ Plan &amp; validity</div><div class="meta-value"><strong>$35 Bula Pack</strong><br>50GB data · valid for 10 days</div></div>
+        <div class="plan-item"><div class="meta-key">☎️ Vodafone support</div><div class="meta-value"><a href="#" onclick="openExternalLaunch('https://esim.vodafone.com.fj/support?tab=call-support', 'Vodafone Fiji eSIM Support', 'Open Call Support'); return false;">Call Support</a> · <strong>+679 9902 123</strong><br>7 days a week · 9 AM–9 PM Fiji Time</div></div>
       </div>
       <div class="card-footer">
         <a class="link-pill" href="#" onclick="openExternalLaunch('https://esim.vodafone.com.fj/login', 'Vodafone Fiji Account Login', 'Open Account Login'); return false;">Account Login</a>
-        <a class="link-pill" href="#" onclick="openDocumentPreview('https://drive.google.com/file/d/19v6aCRZk4f0iqepVw_0JEotJeeZfHun5/preview', 'Vodafone Fiji eSIM User Manual'); return false;">User Manual</a>
+        <a class="link-pill" href="#" onclick="openDocumentPreview('https://drive.google.com/file/d/19v6aCRZk4f0iqepVw_0JEotJeeZfHun5/preview', 'Vodafone Fiji Account Setup'); return false;">Account Setup</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="label-row">
+        <div class="label">Assigned eSIMs</div>
+      </div>
+      <div class="subtext">Select the named traveller to open the assigned eSIM QR code. Open the QR code on another device while installing it on the traveller’s phone.</div>
+      <div class="esim-pill-grid">
+        <a class="esim-pill" href="#" onclick="openDocumentPreview('https://drive.google.com/file/d/1vAK7D4bgRru3tTEsL-ez8SyJA1IpXQLN/preview', 'Gavin · Vodafone Fiji eSIM QR Code'); return false;">
+          <span class="esim-details"><span class="esim-name">Gavin</span><span class="esim-number">+679 944 2666</span></span><span class="esim-action">QR Code</span>
+        </a>
+        <a class="esim-pill" href="#" onclick="openDocumentPreview('https://drive.google.com/file/d/1nziKpF-K8jVDAYzfSRO4f6TafSmTZ7Sr/preview', 'Katie · Vodafone Fiji eSIM QR Code'); return false;">
+          <span class="esim-details"><span class="esim-name">Katie</span><span class="esim-number">+679 944 2676</span></span><span class="esim-action">QR Code</span>
+        </a>
+        <a class="esim-pill" href="#" onclick="openDocumentPreview('https://drive.google.com/file/d/1PULq67FmGmM_QlZSbL97jGqAC-IL-wrL/preview', 'Sema · Vodafone Fiji eSIM QR Code'); return false;">
+          <span class="esim-details"><span class="esim-name">Sema</span><span class="esim-number">+679 944 2681</span></span><span class="esim-action">QR Code</span>
+        </a>
+      </div>
+      <div class="card-footer setup-footer">
+        <a class="link-pill" href="#" onclick="openDocumentPreview('https://drive.google.com/file/d/1QLEHxWSG47S_oiv4LYCWt_r80uXc9fEI/preview', 'Vodafone eSIM Setup Guide'); return false;">Vodafone eSIM Setup Guide</a>
       </div>
     </article>
   </section>
